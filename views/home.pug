@@ -3,8 +3,8 @@ extends layout
 block content
   h1 Page d'accueil
   
-  //- Carte user à créer
+   include userCard
   
   //- Bouton pour afficher un autre utilisateur
-  form(action="/fetch-user", method="POST")
+  form(action="/fetchAnotherUser", method="GET")
     button(type="submit") Dire bonjour à quelqu'un d'autre
