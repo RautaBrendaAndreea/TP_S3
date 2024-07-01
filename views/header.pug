@@ -1,0 +1,21 @@
+header
+  .logo
+    p AM's Intranet
+
+  if loggedIn
+    //- Si l'utilisateuir est connecté
+    .user-info
+      //- On vérifie s'il est admin afin de gérer l'affichage du bouton "ajouter un utilisateur"
+      if isAdmin
+        a(href="/add") Add User
+
+      //- Affichage de l'avatar avec redirection pour éditer le profil
+      a(href="/edit")
+        img.user-avatar(src="/images/avatar.jpg", alt="image de profil et édition du profil")
+
+      //- Bouton de déconnexion quand l'utilisateur est connecté
+      form(action="/logout", method="POST")
+        button(type="submit") Déconnexion
+  else
+    //- L'utilisateur n'est pas connecté
+    a(href="/login") Connexion
