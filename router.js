@@ -22,6 +22,6 @@ router.post("/login", handleLogin);
 router.get("/home", showHomePage);
 
 // Route pour récupèrer les données d'un utilisateur au hasard
-router.get("/fetchAnotherUser", fetchAnotherUser);
+router.get("/home", fetchAnotherUser);
 
 export default router;
