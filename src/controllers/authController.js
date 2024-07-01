@@ -14,14 +14,6 @@ const readUsersFromFile = async () => {
   return JSON.parse(usersData);
 };
 
-// Fonction pour récupèrer un utilisateur au hasard
-const getRandomUser = async () => {
-  const usersData = await fs.readFile(usersFilePath, "utf-8");
-  const users = JSON.parse(usersData);
-  const randomIndex = Math.floor(Math.random() * users.length);
-  return users[randomIndex];
-};
-
 // Afficher la page de connexion
 export const showLoginPage = (req, res) => {
   res.render("login", { error: null });
@@ -70,26 +62,4 @@ export const handleLogout = (req, res) => {
     // Si le destroy réussi, on redirige vers la page d'accueil
     res.redirect("/login");
   });
-};
-
-// Afficher la page d'accueil avec un utilisateur au hasard
-export const showHomePage = async (req, res) => {
-  try {
-    const randomUser = await getRandomUser();
-    res.render("home", { user: randomUser });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
-  }
-};
-
-// Récupérer un autre utilisateur au hasard et envoyer la réponse JSON
-export const fetchAnotherUser = async (req, res) => {
-  try {
-    const randomUser = await getRandomUser();
-    res.json(randomUser);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch another user" });
-  }
 };
