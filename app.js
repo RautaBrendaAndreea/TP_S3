@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import path from "path";
 import router from "./router.js";
 import session from "express-session";
+import bodyParser from 'body-parser';
 
 import { fileURLToPath } from "url";
 
@@ -20,8 +21,9 @@ app.set("views", path.join(__dirname, "views"));
 // Middleware JSON
 app.use(express.json());
 
-// Middleware fichiers statiques
-app.use(express.static("public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
