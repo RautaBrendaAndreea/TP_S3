@@ -1,7 +1,10 @@
+import dayjs from "dayjs";
 import fs from "fs/promises";
 import path from "path";
 
 import { fileURLToPath } from "url";
+
+import "dayjs/locale/fr.js";
 
 // Récupèrer le chemin absolu du fichier JSON
 const __filename = fileURLToPath(import.meta.url);
@@ -20,9 +23,14 @@ const getRandomUser = async () => {
 export const showUser = async (req, res) => {
   try {
     const randomUser = await getRandomUser();
-    res.render("home", { user: randomUser });
+
+    const formatedBirthdate = dayjs(randomUser.birthdate)
+      .locale("fr")
+      .format("D MMMM");
+
+    res.render("home", { user: { ...randomUser, formatedBirthdate } });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Server error");
+    res.status(500).send("Erreur serveur");
   }
 };
