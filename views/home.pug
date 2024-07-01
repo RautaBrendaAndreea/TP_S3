@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 Page d'accueil
+  
+  //- Carte user à créer
+  
+  //- Bouton pour afficher un autre utilisateur
+  form(action="/fetch-user", method="POST")
+    button(type="submit") Dire bonjour à quelqu'un d'autre
