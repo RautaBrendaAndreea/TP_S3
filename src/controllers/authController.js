@@ -18,7 +18,7 @@ export const handleLogin = async (req, res) => {
 
   try {
     // Récupérer les utilisateurs depuis le fichier JSON
-    const usersPath = path.join(__dirname, "..", "users.json");
+    const usersPath = path.join(__dirname, "data", "users.json");
     const usersData = await fs.readFile(usersPath, "utf-8");
     const users = JSON.parse(usersData);
 
@@ -40,9 +40,46 @@ export const handleLogin = async (req, res) => {
 
     // Login réussi
     req.session.user = { email: user.email };
-    res.redirect("/dashboard"); // Redirection vers la page d'accueil
+    res.redirect("/home"); // Redirection vers la page d'accueil
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
+  }
+};
+
+export const showHomePage = async (req, res) => {
+  try {
+    // Lire le fichier JSON
+    const usersPath = path.join(__dirname, "data", "users.json");
+    const usersData = await fs.readFile(usersPath, "utf-8");
+    const users = JSON.parse(usersData);
+
+    // Récupèrer un utilisateur au hasard
+    const randomIndex = Math.floor(Math.random() * users.length);
+    const randomUser = users[randomIndex];
+
+    // Afficher la page d'accueil
+    res.render("home", { user: randomUser });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+};
+
+export const fetchAnotherUser = async (req, res) => {
+  try {
+    const usersPath = path.join(__dirname, "data", "users.json");
+    const usersData = await fs.readFile(usersPath, "utf-8");
+    const users = JSON.parse(usersData);
+
+    // Récupèrer un autre utilisateur au hasard
+    const randomIndex = Math.floor(Math.random() * users.length);
+    const randomUser = users[randomIndex];
+
+    // Envoyer la réponse JSON
+    res.json(randomUser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch another user" });
   }
 };
