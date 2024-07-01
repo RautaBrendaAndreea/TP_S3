@@ -3,44 +3,54 @@ import path from "path";
 import bcrypt from "bcrypt";
 import { fileURLToPath } from "url";
 
-// Récupèrer le path absolut
+// Récupèrer le chemin absolu du fichier JSON
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// Définir le chemin du fichier JSON
 const usersFilePath = path.resolve(__dirname, "../../data/users.json");
 
-// Afficher la pagin de connexion
+// Fonction pour lire les utilisateurs depuis le fichier JSON
+const readUsersFromFile = async () => {
+  const usersData = await fs.readFile(usersFilePath, "utf-8");
+  return JSON.parse(usersData);
+};
+
+// Fonction pour récupèrer un utilisateur au hasard
+const getRandomUser = async () => {
+  const usersData = await fs.readFile(usersFilePath, "utf-8");
+  const users = JSON.parse(usersData);
+  const randomIndex = Math.floor(Math.random() * users.length);
+  return users[randomIndex];
+};
+
+// Afficher la page de connexion
 export const showLoginPage = (req, res) => {
   res.render("login", { error: null });
 };
 
-// Gérer la soumission du formulaire
+// Gérer la soumission du formulaire de connexion
 export const handleLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Récupérer les utilisateurs depuis le fichier JSON
-    const usersData = await fs.readFile(usersFilePath, "utf-8");
-    const users = JSON.parse(usersData);
+    const users = await readUsersFromFile();
 
-    // Ftrouver l'email du l'utilisateur
+    // Trouver l'utilisateur avec l'email fourni
     const user = users.find((u) => u.email === email);
 
     if (!user) {
-      // S'il n'est pas trouvé
+      // Si l'utilisateur n'est pas trouvé, afficher un message d'erreur
       return res.render("login", { error: "Invalid email or password" });
     }
 
-    // Comparer le mot de passe fourni avec l'existant
+    // Comparer le mot de passe fourni avec celui stocké dans les données de l'utilisateur
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      // Mot de passe incorrect
+      // Si les mots de passe ne correspondent pas, afficher un message d'erreur
       return res.render("login", { error: "Invalid email or password" });
     }
 
-    // Login réussi
+    // Authentification réussie, définir l'utilisateur dans la session
     req.session.user = { email: user.email };
     res.redirect("/home"); // Redirection vers la page d'accueil
   } catch (err) {
@@ -49,17 +59,10 @@ export const handleLogin = async (req, res) => {
   }
 };
 
+// Afficher la page d'accueil avec un utilisateur au hasard
 export const showHomePage = async (req, res) => {
   try {
-    // Lire le fichier JSON
-    const usersData = await fs.readFile(usersFilePath, "utf-8");
-    const users = JSON.parse(usersData);
-
-    // Récupèrer un utilisateur au hasard
-    const randomIndex = Math.floor(Math.random() * users.length);
-    const randomUser = users[randomIndex];
-
-    // Afficher la page d'accueil
+    const randomUser = await getRandomUser();
     res.render("home", { user: randomUser });
   } catch (err) {
     console.error(err);
@@ -67,16 +70,10 @@ export const showHomePage = async (req, res) => {
   }
 };
 
+// Récupérer un autre utilisateur au hasard et envoyer la réponse JSON
 export const fetchAnotherUser = async (req, res) => {
   try {
-    const usersData = await fs.readFile(usersFilePath, "utf-8");
-    const users = JSON.parse(usersData);
-
-    // Récupèrer un autre utilisateur au hasard
-    const randomIndex = Math.floor(Math.random() * users.length);
-    const randomUser = users[randomIndex];
-
-    // Envoyer la réponse JSON
+    const randomUser = await getRandomUser();
     res.json(randomUser);
   } catch (err) {
     console.error(err);
