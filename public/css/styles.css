@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+header {
+  background-color: #ffffff;
+  border-bottom: 0.5px solid #2e0f44;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+h1,
+h2 {
+  color: #2e0f44;
+}
+
+h3,
+h4 {
+  color: #8763a0;
+}
+
+p {
+  color: #000000;
+}
+
+a {
+  color: #2e0f44;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
