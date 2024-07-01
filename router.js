@@ -4,6 +4,7 @@ import {
   handleLogin,
   showHomePage,
   fetchAnotherUser,
+  handleLogout,
 } from "./src/controllers/authController.js";
 
 const router = express.Router();
@@ -14,6 +15,9 @@ router.get("/", (req, res) => {
 
 // Route de gestion de l'affichage de la page de connexion
 router.get("/login", showLoginPage);
+
+// Route pour gérer la déconnexion
+router.post("/login", handleLogout);
 
 // Route pour gérer la soumission du formulaire de connexion
 router.post("/login", handleLogin);

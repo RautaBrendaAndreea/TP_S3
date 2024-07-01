@@ -59,6 +59,19 @@ export const handleLogin = async (req, res) => {
   }
 };
 
+// Gérer la déconnexion
+export const handleLogout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      // Si le destroy échoue, on gérer l'erreur et on redirige vers la page d'accueil
+      console.error("Error destroying session:", err);
+      return res.redirect("/home");
+    }
+    // Si le destroy réussi, on redirige vers la page d'accueil
+    res.redirect("/login");
+  });
+};
+
 // Afficher la page d'accueil avec un utilisateur au hasard
 export const showHomePage = async (req, res) => {
   try {
