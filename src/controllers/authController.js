@@ -7,6 +7,9 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Définir le chemin du fichier JSON
+const usersFilePath = path.resolve(__dirname, "../../data/users.json");
+
 // Afficher la pagin de connexion
 export const showLoginPage = (req, res) => {
   res.render("login", { error: null });
@@ -18,8 +21,7 @@ export const handleLogin = async (req, res) => {
 
   try {
     // Récupérer les utilisateurs depuis le fichier JSON
-    const usersPath = path.join(__dirname, "data", "users.json");
-    const usersData = await fs.readFile(usersPath, "utf-8");
+    const usersData = await fs.readFile(usersFilePath, "utf-8");
     const users = JSON.parse(usersData);
 
     // Ftrouver l'email du l'utilisateur
@@ -50,8 +52,7 @@ export const handleLogin = async (req, res) => {
 export const showHomePage = async (req, res) => {
   try {
     // Lire le fichier JSON
-    const usersPath = path.join(__dirname, "data", "users.json");
-    const usersData = await fs.readFile(usersPath, "utf-8");
+    const usersData = await fs.readFile(usersFilePath, "utf-8");
     const users = JSON.parse(usersData);
 
     // Récupèrer un utilisateur au hasard
@@ -68,8 +69,7 @@ export const showHomePage = async (req, res) => {
 
 export const fetchAnotherUser = async (req, res) => {
   try {
-    const usersPath = path.join(__dirname, "data", "users.json");
-    const usersData = await fs.readFile(usersPath, "utf-8");
+    const usersData = await fs.readFile(usersFilePath, "utf-8");
     const users = JSON.parse(usersData);
 
     // Récupèrer un autre utilisateur au hasard
