@@ -1,49 +1,61 @@
 extends layout
 
 block content
-  h1 Créer un utilisateur
+  h1.heading Créer un utilisateur
 
-  form(action="/admin/add", method="POST")
-    label(for="gender") Civilité
-    select(id="gender" name="gender" required)
-      option(value="male") Homme
-      option(value="female") Femme
-      option(value="other") Autre
+  form.container(action="/admin/add", method="POST") 
+    div.checkbox-container
+      label(for="isAdmin") Administrateur
+      input#isAdmin(type="checkbox" name="isAdmin")
 
-    label(for="category") Catégorie
-    select(id="category" name="category" required)
-      option(value="Client") Client
-      option(value="Technique") Technique
-      option(value="Marketing") Marketing
+    div.select-container
+      label(for="gender") Civilité
+      select(id="gender" name="gender" required)
+        option(value="male") Homme
+        option(value="female") Femme
+        option(value="other") Autre
 
-    label(for="lastname") Nom
-    input#lastname(type="text" name="lastname" required)
+    div.select-container
+      label(for="category") Catégorie
+      select(id="category" name="category" required)
+        option(value="Client") Client
+        option(value="Technique") Technique
+        option(value="Marketing") Marketing
 
-    label(for="firstname") Prénom
-    input#firstname(type="text" name="firstname" required)
+    div.input-container
+      label(for="lastname") Nom
+      input#lastname(type="text" name="lastname" required)
 
-    label(for="email") Email
-    input#email(type="email" name="email" required)
+    div.input-container
+      label(for="firstname") Prénom
+      input#firstname(type="text" name="firstname" required)
 
-    label(for="password") Mot de passe
-    input#password(type="password" name="password" required)
+    div.input-container
+      label(for="email") Email
+      input#email(type="email" name="email" required)
 
-    label(for="phone") Téléphone
-    input#phone(type="tel" name="phone" required)
+    div.input-container
+      label(for="password") Mot de passe
+      input#password(type="password" name="password" required)
 
-    label(for="birthdate") Date de naissance
-    input#birthdate(type="date" name="birthdate" required)
+    div.input-container
+      label(for="phone") Téléphone
+      input#phone(type="tel" name="phone" required)
 
-    label(for="city") Ville
-    input#city(type="text" name="city" required)
+    div.input-container
+      label(for="birthdate") Date de naissance
+      input#birthdate(type="date" name="birthdate" required)
 
-    label(for="country") Pays
-    input#country(type="text" name="country" required)
+    div.input-container
+      label(for="city") Ville
+      input#city(type="text" name="city" required)
 
-    label(for="photo") URL de la photo
-    input#photo(type="url" name="photo" required)
+    div.input-container
+      label(for="country") Pays
+      input#country(type="text" name="country" required)
 
-    label(for="isAdmin") Administrateur
-    input#isAdmin(type="checkbox" name="isAdmin")
+    div.input-container
+      label(for="photo") URL de la photo
+      input#photo(type="file" name="photo" accept="image/*" required)
 
-    button(type="submit") Ajouter
+    button.btn-primary(type="submit") Ajouter
