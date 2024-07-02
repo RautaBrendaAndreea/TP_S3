@@ -28,10 +28,11 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+
+// Session configuration
 app.use(
   session({
-    secret: "your-secret-key",
+    secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -40,6 +41,11 @@ app.use(
     },
   })
 );
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke....!");
+});
 
 // Router principal
 app.use("/", router);

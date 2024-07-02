@@ -5,11 +5,7 @@ header.navbar
 
     //- Vérifier si l'utilisateur est connecté
     if loggedInUser
-      nav.header-nav
-        //- Vérifier s'il est admin pour afficher le lien d'ajout d'utilisateur
-        if loggedInUser.isAdmin
-          a(href="/admin/add") Ajouter un utilisateur
-
+      nav
         //- Liens pour utilisateur connecté
         a(href="/listing") Listing
         a(href="/edit") 
