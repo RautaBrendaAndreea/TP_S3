@@ -90,3 +90,77 @@ export const deleteUser = async (req, res) => {
       res.status(500).send("Erreur lors de la suppression de l'utilisateur");
     }
 };
+
+// Contrôleur pour afficher le formulaire d'édition par un administrateur
+export const showAdminEditForm = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const users = await getAllUsers();
+        const user = users.find(user => user.id.toString() === userId.toString());
+
+        console.log("Editing user: ", user); 
+
+        if (!user) {
+            return res.status(404).send('Utilisateur non trouvé');
+        }
+
+        res.render('edit', { user, isAdmin: req.session.isAdmin });
+    } catch (error) {
+        console.error("Erreur lors de l'affichage du formulaire d'édition d'utilisateur par l'administrateur : ", error);
+        res.status(500).send('Erreur serveur');
+    }
+};
+
+// Mettre à jour les informations d'un utilisateur par un administrateur
+export const updateAdminUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const {
+            gender,
+            category,
+            lastname,
+            firstname,
+            email,
+            password,
+            phone,
+            birthdate,
+            city,
+            country,
+            photo,
+            isAdmin 
+        } = req.body;
+
+        const isAdminUser = isAdmin === 'on';
+        let users = await getAllUsers();
+        const userIndex = users.findIndex(user => user.id.toString() === userId);
+
+        if (userIndex === -1) {
+            return res.status(404).send('Utilisateur non trouvé');
+        }
+
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        users[userIndex] = {
+            id: userId, 
+            gender,
+            category,
+            lastname,
+            firstname,
+            email,
+            password: hashedPassword,
+            phone,
+            birthdate,
+            city,
+            country,
+            photo,
+            isAdmin: isAdminUser
+        };
+
+        await writeAllUsers(users);
+
+        res.redirect('/listing');
+    } catch (err) {
+        console.error("Erreur lors de la modification:", err);
+        res.status(500).send('Erreur serveur');
+    }
+};

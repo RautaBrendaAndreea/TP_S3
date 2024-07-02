@@ -1,17 +1,17 @@
 [
   {
     "id": "1",
-    "gender": "female",
-    "firstname": "Owen",
+    "gender": "male",
+    "category": "Technique",
     "lastname": "Lopez",
+    "firstname": "Owen",
     "email": "owen.lopez@example.com",
-    "password": "$2b$10$ILTDZgRilU/iGBcfWN6HAuo6wrhFaJq6.MaHz63S3YpNTkTLyHsoe",
+    "password": "$2b$10$Nppv7NZwr39tnRf/XhIoIO/S0tvrBiFLa0WYgiqbJAF2BrRVPRhfa",
     "phone": "02-37-79-78-39",
     "birthdate": "2024-07-19",
     "city": "Villeurbanne",
     "country": "France",
     "photo": "https://randomuser.me/api/portraits/men/40.jpg",
-    "category": "Technique",
     "isAdmin": false
   },
   {
@@ -167,17 +167,17 @@
   {
     "id": "12",
     "gender": "female",
-    "firstname": "Marine",
+    "category": "Client",
     "lastname": "Marchand",
+    "firstname": "Marine",
     "email": "marine.marchand@example.com",
-    "password": "$2b$10$Pdv9WShi/GbmlBFmI5mYP.cvIwzeQHNJBlgWqZozq0TbIChYdF6xm",
+    "password": "$2b$10$63YNgZIozh0bAHF8IvZZs.BY31ELp6LRUqae4n.br1AsAGWl4Ykr.",
     "phone": "04-46-14-99-58",
     "birthdate": "1992-04-21",
     "city": "Reims",
     "country": "France",
     "photo": "https://randomuser.me/api/portraits/women/56.jpg",
-    "category": "Client",
-    "isAdmin": false
+    "isAdmin": true
   },
   {
     "id": "13",
@@ -617,31 +617,16 @@
   {
     "id": "42",
     "gender": "male",
-    "firstname": "Admin",
+    "firstname": "User",
     "lastname": "Admin",
     "email": "admin@admin.com",
-    "password": "$2b$10$9zFrWQLAa.m0ktTTORG3Y.vv22Fmz.DjA8cEX.NxSi654m6MhOZpq",
+    "password": "$2b$10$31.T.lm8RktHEeaU89shD.TwLi0VCH9t7Vw2P4dq4eZ0vQiBKZ2Zy",
     "phone": "07-39-81-18-27",
     "birthdate": "1988-11-04",
     "city": "Paris",
     "country": "France",
     "photo": "https://randomuser.me/api/portraits/men/42.jpg",
     "category": "Client",
-    "isAdmin": true
-  },
-  {
-    "id": 43,
-    "gender": "female",
-    "category": "Client",
-    "lastname": "Andreea",
-    "firstname": "Andreea",
-    "email": "andreea@ex.com",
-    "password": "$2b$10$x0opPYsRQ0uRBdFxLuQkEushJY4Gqry0K408NSwmyq9eirFH3Xwhq",
-    "phone": "0649596861",
-    "birthdate": "2024-06-28",
-    "city": "Marly",
-    "country": "France",
-    "photo": "https://randomuser.me/api/portraits/women/64.jpg",
     "isAdmin": true
   }
 ]

@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import helmet from 'helmet';
 import mongoose from "mongoose";
 import path from "path";
 import router from "./router.js";
@@ -8,6 +9,7 @@ import bodyParser from "body-parser";
 
 import { fileURLToPath } from "url";
 
+app.use(helmet());
 dotenv.config();
 
 const app = express();
@@ -26,14 +28,16 @@ app.use(express.static("public"));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(
-    session({
-      secret: "your-secret-key",
-      resave: false,
-      saveUninitialized: true,
-      cookie: { secure: false }, 
-    })
-  );
+app.use(session({
+  secret: "your-secret-key",
+  resave: false,
+  saveUninitialized: true,
+  cookie: { 
+    httpOnly: true, 
+    sameSite: 'strict' 
+  }
+}));
+
 
 
 // routeur principal

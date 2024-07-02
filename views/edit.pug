@@ -3,7 +3,9 @@ extends layout
 block content
   h1 Modifier mon profil
 
-  form(action="/edit", method="POST")
+  form(action="/admin/edit/" + user.id, method="POST")
+    input(type="hidden" name="id" value=user.id)
+
     label(for="gender") Civilité
     select(id="gender" name="gender")
       option(value="male" selected=(user.gender === 'male')) Homme
@@ -45,5 +47,9 @@ block content
 
     label(for="photo") URL de la photo
     input#photo(type="url" name="photo" value=user.photo required)
+
+    if isAdmin
+      label(for="isAdmin") Administrateur
+      input#isAdmin(type="checkbox" name="isAdmin" checked=user.isAdmin)
 
     button(type="submit") Modifier

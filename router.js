@@ -13,7 +13,7 @@ import {
   showEditForm 
 } from "./src/controllers/userController.js";
 import {
-  deleteUser, showAddUserForm, addNewUser
+  deleteUser, showAddUserForm, addNewUser, updateAdminUser, showAdminEditForm
 } from './src/controllers/adminController.js'
 
 const router = express.Router();
@@ -51,5 +51,8 @@ router.delete("/delete/:id", deleteUser);
 // Routes d'administration
 router.get('/admin/add',adminMiddleware, showAddUserForm);
 router.post('/admin/add',adminMiddleware, addNewUser); 
+
+router.get('/admin/edit/:id', adminMiddleware, showAdminEditForm);
+router.post('/admin/edit/:id', adminMiddleware, updateAdminUser);
 
 export default router;

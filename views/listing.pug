@@ -26,7 +26,7 @@ block content
       p= `Anniversaire: ${user.formatedBirthdate}`
 
       if isAdmin 
-        a.edit(href=`/edit/${user.id}`) Modifier
+        a.edit(href=`/admin/edit/${user.id}`) Modifier
         button.delete-btn(data-id=user.id) Supprimer
 
   #deleteModal.modal
