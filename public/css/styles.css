@@ -109,6 +109,7 @@ nav.header-nav a:hover {
 .heading {
   text-align: center;
   font-size: 30px;
+  margin: 20px;
   color: #2e0f44;
 }
 
@@ -264,4 +265,64 @@ input:focus {
 
 .delete-btn:active {
   transform: scale(0.9);
+}
+
+/* Style de la page edit */
+form.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75%;
+  margin: 15px auto;
+  padding: 20px;
+  border: 1px solid #c2b4be;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.input-container,
+.select-container,
+.checkbox-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.input-container label,
+.select-container label,
+.checkbox-container label {
+  flex: 1;
+  margin-right: 10px;
+  text-align: left;
+  color: #2e0f44;
+  font-size: 16px;
+}
+
+.input-container input,
+.select-container select,
+.checkbox-container input {
+  flex: 2;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #c2b4be;
+  box-shadow: #e1dad3 0px 10px 10px -5px;
+  border-inline: 2px solid transparent;
+  font-size: 16px;
+  color: #2e0f44;
+}
+
+.input-container input:focus {
+  outline: none;
+  border-inline: 2px solid #2e0f44;
+}
+
+.select-container select {
+  padding: 9px;
+  appearance: none;
+  background-color: #ffffff;
 }

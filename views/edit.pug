@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  h1 Modifier mon profil
+  h1.heading Modifier mon profil
 
   form(action="/admin/edit/" + user.id, method="POST")
     input(type="hidden" name="id" value=user.id)
