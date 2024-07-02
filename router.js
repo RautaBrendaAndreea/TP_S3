@@ -55,4 +55,9 @@ router.post('/admin/add',adminMiddleware, addNewUser);
 router.get('/admin/edit/:id', adminMiddleware, showAdminEditForm);
 router.post('/admin/edit/:id', adminMiddleware, updateAdminUser);
 
+
+router.use((req, res, next) => {
+  res.status(404).send('Page not found');
+});
+
 export default router;
