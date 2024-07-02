@@ -156,19 +156,3 @@ const validateData = ({ gender, category, lastname, firstname, email, password }
     return true;
 };
 
-// Fonction pour supprimer un utilisateur par ID
-export const deleteUser = async (req, res) => {
-    try {
-      const userId = req.params.id;
-  
-      let users = await getAllUsers();
-      users = users.filter(user => user.id.toString() !== userId.toString());
-  
-      await writeAllUsers(users);
-  
-      res.status(200).send('Utilisateur supprimé avec succès');
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Erreur lors de la suppression de l'utilisateur");
-    }
-};

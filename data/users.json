@@ -2,16 +2,16 @@
   {
     "id": "1",
     "gender": "male",
-    "firstname": "Owen",
+    "category": "Technique",
     "lastname": "Lopez",
+    "firstname": "Owen",
     "email": "owen.lopez@example.com",
-    "password": "$2b$10$IExQBXEZVifvfEOWvWsmO.4.OocNb7zQzurQerwOQh1tZx/3okSp.",
+    "password": "$2b$10$Nppv7NZwr39tnRf/XhIoIO/S0tvrBiFLa0WYgiqbJAF2BrRVPRhfa",
     "phone": "02-37-79-78-39",
-    "birthdate": "1992-12-26",
+    "birthdate": "2024-07-19",
     "city": "Villeurbanne",
     "country": "France",
     "photo": "https://randomuser.me/api/portraits/men/40.jpg",
-    "category": "Marketing",
     "isAdmin": false
   },
   {
@@ -167,17 +167,17 @@
   {
     "id": "12",
     "gender": "female",
-    "firstname": "Marine",
+    "category": "Client",
     "lastname": "Marchand",
+    "firstname": "Marine",
     "email": "marine.marchand@example.com",
-    "password": "$2b$10$Pdv9WShi/GbmlBFmI5mYP.cvIwzeQHNJBlgWqZozq0TbIChYdF6xm",
+    "password": "$2b$10$63YNgZIozh0bAHF8IvZZs.BY31ELp6LRUqae4n.br1AsAGWl4Ykr.",
     "phone": "04-46-14-99-58",
     "birthdate": "1992-04-21",
     "city": "Reims",
     "country": "France",
     "photo": "https://randomuser.me/api/portraits/women/56.jpg",
-    "category": "Client",
-    "isAdmin": false
+    "isAdmin": true
   },
   {
     "id": "13",
