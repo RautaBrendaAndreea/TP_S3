@@ -1,17 +1,17 @@
 [
   {
     "id": "1",
-    "gender": "male",
+    "gender": "female",
     "firstname": "Owen",
     "lastname": "Lopez",
     "email": "owen.lopez@example.com",
-    "password": "$2b$10$IExQBXEZVifvfEOWvWsmO.4.OocNb7zQzurQerwOQh1tZx/3okSp.",
+    "password": "$2b$10$ILTDZgRilU/iGBcfWN6HAuo6wrhFaJq6.MaHz63S3YpNTkTLyHsoe",
     "phone": "02-37-79-78-39",
-    "birthdate": "1992-12-26",
+    "birthdate": "2024-07-19",
     "city": "Villeurbanne",
     "country": "France",
     "photo": "https://randomuser.me/api/portraits/men/40.jpg",
-    "category": "Marketing",
+    "category": "Technique",
     "isAdmin": false
   },
   {
@@ -617,10 +617,10 @@
   {
     "id": "42",
     "gender": "male",
-    "firstname": "User",
+    "firstname": "Admin",
     "lastname": "Admin",
     "email": "admin@admin.com",
-    "password": "$2b$10$31.T.lm8RktHEeaU89shD.TwLi0VCH9t7Vw2P4dq4eZ0vQiBKZ2Zy",
+    "password": "$2b$10$9zFrWQLAa.m0ktTTORG3Y.vv22Fmz.DjA8cEX.NxSi654m6MhOZpq",
     "phone": "07-39-81-18-27",
     "birthdate": "1988-11-04",
     "city": "Paris",

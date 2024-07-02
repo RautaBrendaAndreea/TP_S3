@@ -6,24 +6,24 @@ block content
   form(action="/edit", method="POST")
     label(for="gender") Civilité
     select(id="gender" name="gender")
-      option(value="male") Homme
-      option(value="female") Femme
-      option(value="other") Autre
+      option(value="male" selected=(user.gender === 'male')) Homme
+      option(value="female" selected=(user.gender === 'female')) Femme
+      option(value="other" selected=(user.gender === 'other')) Autre
 
     label(for="category") Catégorie
     select(id="category" name="category")
-      option(value="Client") Client
-      option(value="Technique") Technique
-      option(value="Marketing") Marketing
+      option(value="Client" selected=(user.category === 'Client')) Client
+      option(value="Technique" selected=(user.category === 'Technique')) Technique
+      option(value="Marketing" selected=(user.category === 'Marketing')) Marketing
 
     label(for="lastname") Nom
-    input#lastname(type="text" name="lastname" required)
+    input#lastname(type="text" name="lastname" value=user.lastname required)
 
     label(for="firstname") Prénom
-    input#firstname(type="text" name="firstname" required)
+    input#firstname(type="text" name="firstname" value=user.firstname required)
 
     label(for="email") Email
-    input#email(type="email" name="email" required)
+    input#email(type="email" name="email" value=user.email required)
 
     label(for="password") Mot de passe
     input#password(type="password" name="password" required)
@@ -32,18 +32,18 @@ block content
     input#confirmPassword(type="password" name="confirmPassword" required)
 
     label(for="phone") Téléphone
-    input#phone(type="tel" name="phone" required)
+    input#phone(type="tel" name="phone" value=user.phone required)
 
     label(for="birthdate") Date de naissance
-    input#birthdate(type="date" name="birthdate" required)
+    input#birthdate(type="date" name="birthdate" value=user.birthdate required)
 
     label(for="city") Ville
-    input#city(type="text" name="city" required)
+    input#city(type="text" name="city" value=user.city required)
 
     label(for="country") Pays
-    input#country(type="text" name="country" required)
+    input#country(type="text" name="country" value=user.country required)
 
     label(for="photo") URL de la photo
-    input#photo(type="url" name="photo" required)
+    input#photo(type="url" name="photo" value=user.photo required)
 
     button(type="submit") Modifier
