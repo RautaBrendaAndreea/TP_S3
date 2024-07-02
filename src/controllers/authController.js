@@ -21,6 +21,7 @@ export const showLoginPage = (req, res) => {
 
 // Gérer la soumission du formulaire de connexion
 export const handleLogin = async (req, res) => {
+
   const { email, password } = req.body;
 
   try {
@@ -61,6 +62,8 @@ export const handleLogout = (req, res) => {
       return res.redirect("/home");
     }
     // Si le destroy réussi, on redirige vers la page d'accueil
+    res.clearCookie('connect.sid');
+    console.log("Session destroyed and cookie cleared");
     res.redirect("/login");
   });
 };

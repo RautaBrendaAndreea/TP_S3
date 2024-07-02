@@ -9,8 +9,8 @@ header.navbar
         a(href="/listing") Listing
         a(href="/edit") 
           img.profile-image(src=loggedInUser.photo, alt="Avatar et éditer le profil")
-        a(href="/login") Déconnexion
-
+        form(action="/logout", method="POST", style="display: inline;")
+          button(type="submit") Déconnexion
         //- Vérifier s'il est admin pour afficher le lien d'ajout d'utilisateur
         if loggedInUser.isAdmin
           a(href="/admin/add") Ajouter un utilisateur

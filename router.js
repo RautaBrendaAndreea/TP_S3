@@ -31,7 +31,13 @@ router.get("/login", showLoginPage);
 router.post("/login", handleLogin);
 
 // Route pour gérer la déconnexion
-router.post("/logout", handleLogout);
+// Dans router.js ou là où vos routes sont définies
+
+router.post("/logout", (req, res) => {
+  console.log("Logout route hit");
+  handleLogout(req, res);
+});
+
 
 // Route pour gérer l'affichage de la page d'accueil
 router.get("/home", showUser);
@@ -54,5 +60,10 @@ router.post('/admin/add',adminMiddleware, addNewUser);
 
 router.get('/admin/edit/:id', adminMiddleware, showAdminEditForm);
 router.post('/admin/edit/:id', adminMiddleware, updateAdminUser);
+
+
+router.use((req, res, next) => {
+  res.status(404).send('Page not found');
+});
 
 export default router;
