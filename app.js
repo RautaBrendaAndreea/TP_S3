@@ -38,12 +38,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: { 
     httpOnly: true, 
-    sameSite: 'strict'
+    sameSite: 'strict',
+    name: 'connect.sid'
   }
 }));
+
+app.use((req, res, next) => {
+  res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.header('Pragma', 'no-cache');
+  res.header('Expires', '0');
+  next();
+});
+
 
 
 app.use((err, req, res, next) => {
