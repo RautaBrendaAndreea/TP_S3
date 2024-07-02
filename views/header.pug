@@ -1,26 +1,20 @@
-header
-  .navbar
-    .container
-      h1 AM's Intranet
+header.navbar
+  .container
+    h1 AM's Intranet
 
-      //-  Vérifier si l'utilisateur est connecté
-      if !user
-        //- Si non connecté on affiche le bouton de connexion
-        nav
-          a(href="/login") Connexion
-      else
-        //- Si connecté on affiche les liens
-        nav
-          //- Listing 
-          a(href="/listing") Listing
+    //- Vérifier si l'utilisateur est connecté
+    if loggedInUser
+      nav
+        //- Liens pour utilisateur connecté
+        a(href="/listing") Listing
+        a(href="/edit") 
+          img.profile-image(src=loggedInUser.photo, alt="Avatar et éditer le profil")
+        a(href="/login") Déconnexion
 
-          //- Editer le profil
-          a(href="/edit") 
-            img.profile-image(src=user.photo, alt="Avatar et éditer le profil")
-            
-          //- Logout 
-          a(href="/login") Déconnexion
-
-          //- On vérifie s'il est admin afin de gérer l'affichage du bouton "ajouter un utilisateur"
-          if user.isAdmin
-            a(href="/add") Ajouter un utilisateur
+        //- Vérifier s'il est admin pour afficher le lien d'ajout d'utilisateur
+        if loggedInUser.isAdmin
+          a(href="/add") Ajouter un utilisateur
+    else
+      //- Si non connecté, afficher le bouton de connexion
+      nav
+        a(href="/login") Connexion

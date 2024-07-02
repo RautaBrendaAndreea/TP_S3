@@ -1,4 +1,5 @@
 import express from "express";
+import { authMiddleware } from "./src/middleware/authMiddleware.js";
 import {
   showLoginPage,
   handleLogin,
@@ -13,6 +14,8 @@ import {
 } from "./src/controllers/userController.js";
 
 const router = express.Router();
+
+router.use(authMiddleware);
 
 router.get("/", (req, res) => {
   res.redirect("/login");
