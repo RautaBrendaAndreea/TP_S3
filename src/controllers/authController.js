@@ -43,7 +43,8 @@ export const handleLogin = async (req, res) => {
     }
 
     // Authentification réussie, définir l'utilisateur dans la session
-    req.session.user = { email: user.email };
+    req.session.userId = user.id;
+    req.session.isAdmin = user.isAdmin; 
     res.redirect("/home"); // Redirection vers la page d'accueil
   } catch (err) {
     console.error(err);
