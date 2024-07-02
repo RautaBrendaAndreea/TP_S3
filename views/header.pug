@@ -1,11 +1,14 @@
 header.navbar
   .container.header-container
-    h1 
-      a.header-title(href="/home") AM's Intranet
+    h1.header-title AM's Intranet
 
     //- Vérifier si l'utilisateur est connecté
     if loggedInUser
-      nav
+      nav.header-nav
+        //- Vérifier s'il est admin pour afficher le lien d'ajout d'utilisateur
+        if loggedInUser.isAdmin
+          a(href="/admin/add") Ajouter un utilisateur
+
         //- Liens pour utilisateur connecté
         a(href="/listing") Listing
         a(href="/edit") 
