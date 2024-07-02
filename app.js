@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
-import helmet from 'helmet';
+import helmet from "helmet";
 import mongoose from "mongoose";
 import path from "path";
 import router from "./router.js";
@@ -9,7 +9,6 @@ import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 
 dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 8000;
 const SESSION_SECRET = process.env.SESSION_SECRET;
@@ -19,10 +18,6 @@ if (!SESSION_SECRET) {
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-app.use(helmet({
-  contentSecurityPolicy: false,
-}));
 
 // configuration du templating avec pug
 app.set("view engine", "pug");
@@ -35,29 +30,21 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
 // Session configuration
-app.use(session({
-  secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { 
-    httpOnly: true, 
-    sameSite: 'strict',
-    name: 'connect.sid'
-  }
-}));
-
-app.use((req, res, next) => {
-  res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
-  res.header('Pragma', 'no-cache');
-  res.header('Expires', '0');
-  next();
-});
-
-
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "strict",
+    },
+  })
+);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke....!');
+  res.status(500).send("Something broke....!");
 });
 
 // Router principal

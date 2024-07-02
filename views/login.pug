@@ -1,16 +1,15 @@
 extends layout
 
 block content
-  h1 Connexion
+  h1.heading Connexion
+  
   form(action="/login", method="POST")
-    div
-      label(for="email") Email:
-      input(type="email", name="email", required)
-    div
-      label(for="password") Mot de passe:
-      input(type="password", name="password", required)
-    div
-      button(type="submit") Connexion
+    .form-container
+      .form-group
+        input(type="email", name="email", placeholder="Entrez votre email", required)
+      .form-group
+        input(type="password", name="password", placeholder="Entrez votre mot de passe", required)
+      button.btn-primary(type="submit") CONNEXION
 
   //- if error
   //-   p.error= error

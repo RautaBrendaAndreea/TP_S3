@@ -3,32 +3,33 @@ extends layout
 block content
   h1 Liste des collaborateurs
 
-  //- Barre de recherche par nom
-  input#searchName(type='text', placeholder='Rechercher par nom...')
+  //- Barres de recherche 
+  .search-container
+    input#searchName(type='text', placeholder='Rechercher par nom...')
+    input#searchLocation(type='text', placeholder='Rechercher par localisation...')
+    select#searchCategory
+      option(value='') Toutes catégories
+      option(value='Marketing') Marketing
+      option(value='Client') Client
+      option(value='Technique') Technique
 
-  //- Barre de recherche par localisation
-  input#searchLocation(type='text', placeholder='Rechercher par localisation...')
+  //- Container des userCards
+  .card-container
+    each user in users
+      .card(data-name=user.firstname, data-location=user.city, data-category=user.category)
+        img(src=user.photo, alt=`${user.firstname} ${user.lastname}`)
+        h3= `${user.firstname} ${user.lastname}`
+        h4= `${user.city}, ${user.country}`
+        p= `${user.email}`
+        p= `${user.phone}`
+        p= `Anniversaire: ${user.formatedBirthdate}`
 
-  //- Sélecteur de catégorie
-  select#searchCategory
-    option(value='') Toutes catégories
-    option(value='Marketing') Marketing
-    option(value='Client') Client
-    option(value='Technique') Technique
+        if isAdmin 
+          .admin-btns
+            a.btn-secondary(href=`/admin/edit/${user.id}`) Modifier
+            button.delete-btn(data-id=user.id) Supprimer
 
-  each user in users
-    .card(data-name=user.firstname, data-location=user.city, data-category=user.category)
-      img(src=user.photo, alt=`${user.firstname} ${user.lastname}`)
-      h3= `${user.firstname} ${user.lastname}`
-      h4= `${user.city}, ${user.country}`
-      p= `Email: ${user.email}`
-      p= `Téléphone: ${user.phone}`
-      p= `Anniversaire: ${user.formatedBirthdate}`
-
-      if isAdmin 
-        a.edit(href=`/admin/edit/${user.id}`) Modifier
-        button.delete-btn(data-id=user.id) Supprimer
-
+  //- Modale pour confirmer la suppression
   #deleteModal.modal
     .modal-content
       h4 Êtes-vous sûr de vouloir supprimer cet utilisateur ?
@@ -36,6 +37,6 @@ block content
         button.confirm.btn.btn-danger(data-id='') Confirmer
         button.cancel.btn.btn-secondary Annuler
 
-
+  //- Inclure le JS pour la gestion des barres de recherche
   script(src="/js/deleteModal.js")
   script(src="/js/filterUsers.js")
