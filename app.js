@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
-import helmet from 'helmet';
+import helmet from "helmet";
 import mongoose from "mongoose";
 import path from "path";
 import router from "./router.js";
@@ -9,7 +9,6 @@ import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 
 dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 8000;
 const SESSION_SECRET = process.env.SESSION_SECRET;
@@ -20,10 +19,6 @@ if (!SESSION_SECRET) {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-app.use(helmet({
-  contentSecurityPolicy: false,
-}));
-
 // configuration du templating avec pug
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -33,23 +28,18 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
-
-// Session configuration
-app.use(session({
-  secret: SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { 
-    httpOnly: true, 
-    sameSite: 'strict'
-  }
-}));
-
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke....!');
-});
+app.use(express.json());
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      sameSite: "strict",
+    },
+  })
+);
 
 // Router principal
 app.use("/", router);

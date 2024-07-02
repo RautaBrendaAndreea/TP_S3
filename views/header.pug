@@ -1,20 +1,22 @@
 header.navbar
-  .container
-    h1 AM's Intranet
+  .container.header-container
+    h1 
+      a.header-title(href="/home") AM's Intranet
 
     //- Vérifier si l'utilisateur est connecté
     if loggedInUser
-      nav
-        //- Liens pour utilisateur connecté
-        a(href="/listing") Listing
-        a(href="/edit") 
-          img.profile-image(src=loggedInUser.photo, alt="Avatar et éditer le profil")
-        a(href="/login") Déconnexion
-
+      nav.header-nav
         //- Vérifier s'il est admin pour afficher le lien d'ajout d'utilisateur
         if loggedInUser.isAdmin
           a(href="/admin/add") Ajouter un utilisateur
+
+        //- Liens pour utilisateur connecté
+        a(href="/listing") Listing
+        a(href="/edit") 
+          img.profile-card(src=loggedInUser.photo, alt="Avatar et éditer le profil")
+        a(href="/login") Déconnexion
+
     else
       //- Si non connecté, afficher le bouton de connexion
-      nav
+      nav.header-nav
         a(href="/login") Connexion

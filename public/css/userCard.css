@@ -1,0 +1,44 @@
+.card {
+  border: 1px solid #c2b4be;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 250px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #481b68;
+}
+
+.card h3 {
+  color: #481b68;
+  margin-bottom: 5px;
+  font-size: 30px;
+}
+
+.card h4 {
+  color: #8763a0;
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
+.card p {
+  color: black;
+  margin: 5px 0;
+  font-size: 15px;
+}
