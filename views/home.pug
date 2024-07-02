@@ -3,8 +3,9 @@ extends layout
 block content
   h1 Page d'accueil
   
-   include userCard
-  
+  .card-container
+    include userCard
+
   //- Bouton pour afficher un autre utilisateur
   form(action="/home", method="GET")
     button.btn-primary(type="submit") Dire bonjour à quelqu'un d'autre
