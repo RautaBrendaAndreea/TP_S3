@@ -1,5 +1,6 @@
 import express from "express";
 import { authMiddleware } from "./src/middleware/authMiddleware.js";
+import { adminMiddleware } from "./src/middleware/adminMiddleware.js";
 import {
   showLoginPage,
   handleLogin,
@@ -7,11 +8,13 @@ import {
 } from "./src/controllers/authController.js";
 import { 
   showUser, 
-  showAllUsers, 
-  deleteUser, 
+  showAllUsers,  
   updateUser, 
   showEditForm 
 } from "./src/controllers/userController.js";
+import {
+  deleteUser, showAddUserForm, addNewUser
+} from './src/controllers/adminController.js'
 
 const router = express.Router();
 
@@ -44,5 +47,9 @@ router.post('/edit', updateUser);
 
 // Route pour la suppression d'un utilisateur
 router.delete("/delete/:id", deleteUser);
+
+// Routes d'administration
+router.get('/admin/add',adminMiddleware, showAddUserForm);
+router.post('/admin/add',adminMiddleware, addNewUser); 
 
 export default router;

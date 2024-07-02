@@ -21,3 +21,15 @@ export const writeAllUsers = async (users) => {
     throw error; 
   }
 };
+
+// Fonction pour générer le prochain ID d'utilisateur
+export const generateNextUserId = async () => {
+  try {
+      const users = await getAllUsers();
+
+      return users.length + 1;
+  } catch (error) {
+      console.error("Erreur lors de la génération du nouvel ID utilisateur : ", error);
+      throw error;
+  }
+};

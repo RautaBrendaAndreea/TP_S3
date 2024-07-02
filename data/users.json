@@ -628,5 +628,20 @@
     "photo": "https://randomuser.me/api/portraits/men/42.jpg",
     "category": "Client",
     "isAdmin": true
+  },
+  {
+    "id": 43,
+    "gender": "female",
+    "category": "Client",
+    "lastname": "Andreea",
+    "firstname": "Andreea",
+    "email": "andreea@ex.com",
+    "password": "$2b$10$x0opPYsRQ0uRBdFxLuQkEushJY4Gqry0K408NSwmyq9eirFH3Xwhq",
+    "phone": "0649596861",
+    "birthdate": "2024-06-28",
+    "city": "Marly",
+    "country": "France",
+    "photo": "https://randomuser.me/api/portraits/women/64.jpg",
+    "isAdmin": true
   }
 ]
