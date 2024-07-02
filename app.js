@@ -27,13 +27,13 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
-  session({
-    name: "simple",
-    secret: "simple",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+    session({
+      secret: "your-secret-key",
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: false }, 
+    })
+  );
 
 // routeur principal
 app.use("/", router);

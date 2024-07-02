@@ -1,36 +1,174 @@
 import dayjs from "dayjs";
+import bcrypt from 'bcrypt';
 import fs from "fs/promises";
-import path from "path";
-
+import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import { getAllUsers, writeAllUsers } from '../services/userService.js';
 
 import "dayjs/locale/fr.js";
 
-// Récupèrer le chemin absolu du fichier JSON
+// Récupérer le chemin absolu du fichier JSON
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const usersFilePath = path.resolve(__dirname, "../../data/users.json");
+const __dirname = dirname(__filename);
 
-// Fonction pour récupèrer un utilisateur au hasard
-const getRandomUser = async () => {
-  const usersData = await fs.readFile(usersFilePath, "utf-8");
-  const users = JSON.parse(usersData);
-  const randomIndex = Math.floor(Math.random() * users.length);
-  return users[randomIndex];
+const saltRounds = 10;
+
+
+// Fonction pour récupérer un utilisateur au hasard
+export const getRandomUser = async () => {
+    try {
+        const users = await getAllUsers();
+        const randomIndex = Math.floor(Math.random() * users.length);
+        return users[randomIndex];
+    } catch (error) {
+        console.error('Erreur lors de la récupération d\'un utilisateur au hasard : ', error);
+        throw error; 
+    }
 };
+
 
 // Afficher la page d'accueil avec un utilisateur au hasard
 export const showUser = async (req, res) => {
-  try {
-    const randomUser = await getRandomUser();
+    try {
+        const randomUser = await getRandomUser();
+    
+        const formatedBirthdate = dayjs(randomUser.birthdate)
+          .locale("fr")
+          .format("D MMMM");
+    
+        res.render("home", { user: { ...randomUser, formatedBirthdate } });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur serveur");
+    }
+};
+  
+// Afficher tous les utilisateurs
+export const showAllUsers = async (req, res) => {
+    try {
+        if (!req.session.userId) {  // Vérification de l'authentification
+            res.status(401).send('Utilisateur non authentifié');
+            return;
+        }
+  
+        const users = await getAllUsers();
+        const filteredUsers = users.filter(user => user.id.toString() !== req.session.userId.toString());
+  
+        // Formater les dates de naissance de chaque utilisateur
+        const usersWithFormattedDate = filteredUsers.map(user => ({
+            ...user,
+            formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM") // Formatage de la date de naissance
+        }));
+  
+        res.render('listing', { 
+            users: usersWithFormattedDate,
+            isAdmin: req.session.isAdmin // Passer le statut admin à la vue
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erreur serveur');
+    }
+};
+  
+// Afficher le formulaire de modification du profil
+export const showEditForm = async (req, res) => {
+    try {
+        // Récupérer les informations de l'utilisateur à partir de req.session.userId
+        const users = await getAllUsers();
+        const user = users.find(user => user.id.toString() === req.session.userId.toString());
+    
+        if (!user) {
+            return res.status(404).send('Utilisateur non trouvé');
+        }
+        // Passer les données de l'utilisateur à la vue
+        res.render('edit', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erreur serveur');
+    }
+};
+  
+// Mettre à jour les informations du profil
+export const updateUser = async (req, res) => {
+    try {
+        const {
+            gender,
+            category,
+            lastname,
+            firstname,
+            email,
+            password,
+            phone,
+            birthdate,
+            city,
+            country,
+            photo
+        } = req.body;
+    
+        // Valider les données
+        if (!validateData(req.body)) {
+            return res.status(400).send('Données invalides');
+        }
+    
+        let users = await getAllUsers();
+    
+        // Trouver l'utilisateur à mettre à jour
+        const userIndex = users.findIndex(user => user.id.toString() === req.session.userId.toString());
+    
+        if (userIndex === -1) {
+            return res.status(404).send('Utilisateur non trouvé');
+        }
+    
+        // Hacher le mot de passe
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
+        // Mettre à jour les informations de l'utilisateur
+        users[userIndex] = {
+            ...users[userIndex],
+            gender,
+            category,
+            lastname,
+            firstname,
+            email,
+            password: hashedPassword,  
+            phone,
+            birthdate,
+            city,
+            country,
+            photo
+        };
+    
+        await writeAllUsers(users);
+    
+        res.redirect('/home'); 
+    
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erreur serveur');
+    }
+};
+  
+// Fonction pour valider les données
+const validateData = ({ gender, category, lastname, firstname, email, password }) => {
+    if (!gender || !category || !lastname || !firstname || !email || !password) {
+        return false;
+    }
+    return true;
+};
 
-    const formatedBirthdate = dayjs(randomUser.birthdate)
-      .locale("fr")
-      .format("D MMMM");
-
-    res.render("home", { user: { ...randomUser, formatedBirthdate } });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur serveur");
-  }
+// Fonction pour supprimer un utilisateur par ID
+export const deleteUser = async (req, res) => {
+    try {
+      const userId = req.params.id;
+  
+      let users = await getAllUsers();
+      users = users.filter(user => user.id.toString() !== userId.toString());
+  
+      await writeAllUsers(users);
+  
+      res.status(200).send('Utilisateur supprimé avec succès');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Erreur lors de la suppression de l'utilisateur");
+    }
 };
