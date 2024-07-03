@@ -1,23 +1,14 @@
 import dayjs from "dayjs";
 import bcrypt from 'bcrypt';
-import fs from "fs/promises";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
-import { getAllUsers, writeAllUsers } from '../services/userService.js';
-
+import userService from '../services/userService.js';  // Assurez-vous que le chemin vers userService est correct
 import "dayjs/locale/fr.js";
-
-// Récupérer le chemin absolu du fichier JSON
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const saltRounds = 10;
 
-
-// Fonction pour récupérer un utilisateur au hasard
+// Récupérer un utilisateur au hasard
 export const getRandomUser = async () => {
     try {
-        const users = await getAllUsers();
+        const users = await userService.getAllUsers();
         const randomIndex = Math.floor(Math.random() * users.length);
         return users[randomIndex];
     } catch (error) {
@@ -26,23 +17,20 @@ export const getRandomUser = async () => {
     }
 };
 
-
 // Afficher la page d'accueil avec un utilisateur au hasard
 export const showUser = async (req, res) => {
     try {
         const randomUser = await getRandomUser();
-    
         const formatedBirthdate = dayjs(randomUser.birthdate)
           .locale("fr")
-          .format("D MMMM");
-    
-        res.render("home", { user: { ...randomUser, formatedBirthdate } });
+          .format("D MMMM YYYY");
+        res.render("home", { user: { ...randomUser.toObject(), formatedBirthdate } });
     } catch (err) {
         console.error(err);
         res.status(500).send("Erreur serveur");
     }
 };
-  
+
 // Afficher tous les utilisateurs
 export const showAllUsers = async (req, res) => {
     try {
@@ -51,13 +39,12 @@ export const showAllUsers = async (req, res) => {
             return;
         }
   
-        const users = await getAllUsers();
+        const users = await userService.getAllUsers();
         const filteredUsers = users.filter(user => user.id.toString() !== req.session.userId.toString());
   
-        // Formater les dates de naissance de chaque utilisateur
         const usersWithFormattedDate = filteredUsers.map(user => ({
-            ...user,
-            formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM") // Formatage de la date de naissance
+            ...user.toObject(),
+            formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM YYYY")
         }));
   
         res.render('listing', { 
@@ -69,25 +56,21 @@ export const showAllUsers = async (req, res) => {
         res.status(500).send('Erreur serveur');
     }
 };
-  
+
 // Afficher le formulaire de modification du profil
 export const showEditForm = async (req, res) => {
     try {
-        // Récupérer les informations de l'utilisateur à partir de req.session.userId
-        const users = await getAllUsers();
-        const user = users.find(user => user.id.toString() === req.session.userId.toString());
-    
+        const user = await userService.getUserById(req.session.userId);
         if (!user) {
             return res.status(404).send('Utilisateur non trouvé');
         }
-        // Passer les données de l'utilisateur à la vue
-        res.render('edit', { user });
+        res.render('edit', { user: user.toObject() });
     } catch (err) {
         console.error(err);
         res.status(500).send('Erreur serveur');
     }
 };
-  
+
 // Mettre à jour les informations du profil
 export const updateUser = async (req, res) => {
     try {
@@ -104,27 +87,14 @@ export const updateUser = async (req, res) => {
             country,
             photo
         } = req.body;
-    
-        // Valider les données
+
         if (!validateData(req.body)) {
             return res.status(400).send('Données invalides');
         }
-    
-        let users = await getAllUsers();
-    
-        // Trouver l'utilisateur à mettre à jour
-        const userIndex = users.findIndex(user => user.id.toString() === req.session.userId.toString());
-    
-        if (userIndex === -1) {
-            return res.status(404).send('Utilisateur non trouvé');
-        }
-    
-        // Hacher le mot de passe
+
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-    
-        // Mettre à jour les informations de l'utilisateur
-        users[userIndex] = {
-            ...users[userIndex],
+
+        const updateData = {
             gender,
             category,
             lastname,
@@ -137,22 +107,16 @@ export const updateUser = async (req, res) => {
             country,
             photo
         };
-    
-        await writeAllUsers(users);
-    
-        res.redirect('/home'); 
+
+        const updatedUser = await userService.updateUser(req.session.userId, updateData);
+        res.redirect('/home');
     
     } catch (err) {
         console.error(err);
         res.status(500).send('Erreur serveur');
     }
 };
-  
-// Fonction pour valider les données
-const validateData = ({ gender, category, lastname, firstname, email, password }) => {
-    if (!gender || !category || !lastname || !firstname || !email || !password) {
-        return false;
-    }
-    return true;
-};
 
+const validateData = ({ gender, category, lastname, firstname, email, password }) => {
+    return !!(gender && category && lastname && firstname && email && password);
+};

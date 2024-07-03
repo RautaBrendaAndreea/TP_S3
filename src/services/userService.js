@@ -1,35 +1,68 @@
-import fs from 'fs/promises'; 
-const usersFilePath = './data/users.json'; 
+import User from '../models/User.js';
 
-// Fonction pour lire tous les utilisateurs depuis le fichier JSON
-export const getAllUsers = async () => {
-  try {
-    const data = await fs.readFile(usersFilePath, 'utf-8');
-    return JSON.parse(data);
+const userService = {
+  // Créer un nouvel utilisateur
+  createUser: async (userData) => {
+    try {
+      const user = new User(userData);
+      await user.save();
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Obtenir un utilisateur par son ID
+  getUserById: async (userId) => {
+    try {
+      const user = await User.findById(userId);
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Obtenir tous les utilisateurs
+  getAllUsers: async () => {
+    try {
+      const users = await User.find({});
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Mettre à jour un utilisateur
+  updateUser: async (id, updateData) => {
+    try {
+      const user = await User.findByIdAndUpdate(id, updateData, { new: true });
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Supprimer un utilisateur
+  deleteUser: async (userId) => {
+    try {
+      const result = await User.findByIdAndDelete(userId);
+      return result;
   } catch (error) {
-    console.error('Erreur lors de la lecture des utilisateurs : ', error);
-    throw error; 
-  }
-};
-
-// Fonction pour écrire tous les utilisateurs dans le fichier JSON
-export const writeAllUsers = async (users) => {
-  try {
-    await fs.writeFile(usersFilePath, JSON.stringify(users, null, 2), 'utf-8');
-  } catch (error) {
-    console.error("Erreur lors de l'écriture des utilisateurs : ", error);
-    throw error; 
-  }
-};
-
-// Fonction pour générer le prochain ID d'utilisateur
-export const generateNextUserId = async () => {
-  try {
-      const users = await getAllUsers();
-
-      return users.length + 1;
-  } catch (error) {
-      console.error("Erreur lors de la génération du nouvel ID utilisateur : ", error);
       throw error;
   }
+  },
+
+  getUserByEmail: async (email) => {
+    try {
+      const user = await User.findOne({ email: email });
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
 };
+
+
+
+
+export default userService;
