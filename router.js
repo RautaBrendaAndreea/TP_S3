@@ -52,7 +52,7 @@ router.get('/edit', showEditForm);
 router.post('/edit', updateUser);
 
 // Route pour la suppression d'un utilisateur
-router.delete("/delete/:id", deleteUser);
+router.delete("/delete/:userId", deleteUser);
 
 // Routes d'administration
 router.get('/admin/add',adminMiddleware, showAddUserForm);

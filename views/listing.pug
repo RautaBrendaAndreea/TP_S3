@@ -3,6 +3,9 @@ extends layout
 block content
   h1.heading Liste des collaborateurs
 
+  button.btn-primary#backToTop(onclick="topFunction()")
+    i.fa.fa-chevron-up
+
   //- Barres de recherche 
   .search-container
     input#searchName(type='text', placeholder='Rechercher par nom...')
@@ -26,7 +29,7 @@ block content
 
         if isAdmin 
           .admin-btns
-            a.btn-secondary(href=`/admin/edit/${user.id}`) Modifier
+            a.btn-secondary(href=`/admin/edit/${user._id}`) Modifier
             button.delete-btn(data-id=user.id) Supprimer
 
   //- Modale pour confirmer la suppression
@@ -35,8 +38,9 @@ block content
       h4 Êtes-vous sûr de vouloir supprimer cet utilisateur ?
       .modal-actions
         button.confirm.btn.btn-danger(data-id='') Confirmer
-        button.cancel.btn.btn-secondary Annuler
+        button.cancel.btn.btn-primary Annuler
 
   //- Inclure le JS pour la gestion des barres de recherche
   script(src="/js/deleteModal.js")
   script(src="/js/filterUsers.js")
+  script(src="/js/backToTopButton.js")

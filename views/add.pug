@@ -14,6 +14,7 @@ block content
         option(value="male") Homme
         option(value="female") Femme
         option(value="other") Autre
+        i.fa.fa-chevron-down
 
     div.select-container
       label(for="category") Catégorie
@@ -21,6 +22,7 @@ block content
         option(value="Client") Client
         option(value="Technique") Technique
         option(value="Marketing") Marketing
+        i.fa.fa-chevron-down
 
     div.input-container
       label(for="lastname") Nom
@@ -56,6 +58,8 @@ block content
 
     div.input-container
       label(for="photo") URL de la photo
-      input#photo(type="file" name="photo" accept="image/*" required)
+      input#photo(type="url" name="photo" required)
 
-    button.btn-primary(type="submit") Ajouter
+    button.btn-primary(type="submit" style="font-size: 20px; padding: 8px 15px;")
+      i.fa.fa-plus
+      |  Ajouter
