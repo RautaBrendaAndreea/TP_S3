@@ -1,9 +1,19 @@
 import dayjs from "dayjs";
+import bcrypt from 'bcrypt';
+import userService from '../services/userService.js';  
 import "dayjs/locale/fr.js";
 import userService from "../services/userService.js";
 import { validateData } from "../helpers/validation.js";
 
-const formatDate = (date) => dayjs(date).locale("fr").format("D MMMM YYYY");
+const saltRounds = 10;
+
+// Fonction pour calculer l'âge à partir de la date de naissance
+const calculateAge = (birthdate) => {
+    const now = dayjs();
+    const birthDate = dayjs(birthdate);
+    return now.diff(birthDate, "year");
+  };
+
 
 // Fonction pour calculer l'âge à partir de la date de naissance
 const calculateAge = (birthdate) => {
@@ -31,6 +41,9 @@ export const showUser = async (req, res) => {
     const formatedBirthdate = dayjs(randomUser.birthdate)
       .locale("fr")
       .format("D MMMM");
+
+        const age = calculateAge(randomUser.birthdate);
+
 
     console.log(formatedBirthdate);
 

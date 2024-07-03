@@ -20,4 +20,5 @@ export const authMiddleware = async (req, res, next) => {
     console.error("Erreur lors de la récupération de l'utilisateur connecté :", err);
     res.status(500).send("Erreur serveur interne");
   }
+  next();
 };
