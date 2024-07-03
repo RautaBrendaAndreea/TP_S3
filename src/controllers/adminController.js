@@ -19,38 +19,7 @@ export const showAddUserForm = async (req, res) => {
 // Ajouter un nouvel utilisateur
 export const addNewUser = async (req, res) => {
     try {
-        const {
-            gender,
-            category,
-            lastname,
-            firstname,
-            email,
-            password,
-            phone,
-            birthdate,
-            city,
-            country,
-            photo,
-            isAdmin 
-        } = req.body;
-
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        const newUser = {
-            gender,
-            category,
-            lastname,
-            firstname,
-            email,
-            password: hashedPassword,
-            phone,
-            birthdate,
-            city,
-            country,
-            photo,
-            isAdmin: isAdmin === 'on'
-        };
-
+        const newUser = {...req.body, isAdmin: req.body.isAdmin === 'on'};
         await userService.createUser(newUser);
         res.redirect('/listing'); 
     } catch (error) {
@@ -63,6 +32,11 @@ export const addNewUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     const userId = req.params.userId;
 
+    // Vérifiez si l'ID est un ObjectId valide
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: 'ID utilisateur non valide' });
+    }
+
     try {
         const user = await User.findById(userId);
         if (!user) {
@@ -70,13 +44,12 @@ export const deleteUser = async (req, res) => {
         }
 
         await User.findByIdAndDelete(userId);
-
         res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
     } catch (error) {
         console.error('Erreur lors de la suppression', error);
         res.status(500).json({ message: "Erreur lors de la suppression de l'utilisateur" });
     }
-};;
+};
 
 
 
@@ -100,40 +73,8 @@ export const showAdminEditForm = async (req, res) => {
 // Mettre à jour un utilisateur par un administrateur
 export const updateAdminUser = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const {
-            gender,
-            category,
-            lastname,
-            firstname,
-            email,
-            password,
-            phone,
-            birthdate,
-            city,
-            country,
-            photo,
-            isAdmin 
-        } = req.body;
-
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        const updateData = {
-            gender,
-            category,
-            lastname,
-            firstname,
-            email,
-            password: hashedPassword,
-            phone,
-            birthdate,
-            city,
-            country,
-            photo,
-            isAdmin: isAdmin === 'on'
-        };
-
-        await userService.updateUser(userId, updateData);
+        const updateData = {...req.body, isAdmin: req.body.isAdmin === 'on'};
+        await userService.updateUser(req.params.id, updateData);
         res.redirect('/listing');
     } catch (err) {
         console.error("Erreur lors de la modification :", err);

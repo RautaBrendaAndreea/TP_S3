@@ -1,63 +1,47 @@
 import dayjs from "dayjs";
-import bcrypt from 'bcrypt';
-import userService from '../services/userService.js';  // Assurez-vous que le chemin vers userService est correct
-import "dayjs/locale/fr.js";
+import "dayjs/locale/fr.js"; 
+import userService from '../services/userService.js';  
+import { validateData }  from '../helpers/validation.js'
 
-const saltRounds = 10;
+const formatDate = (date) => dayjs(date).locale("fr").format("D MMMM YYYY");
 
-// Récupérer un utilisateur au hasard
 export const getRandomUser = async () => {
     try {
         const users = await userService.getAllUsers();
-        const randomIndex = Math.floor(Math.random() * users.length);
-        return users[randomIndex];
+        return users[Math.floor(Math.random() * users.length)];
     } catch (error) {
-        console.error('Erreur lors de la récupération d\'un utilisateur au hasard : ', error);
-        throw error; 
+        console.error("Erreur lors de la récupération d'un utilisateur au hasard : ", error);
+        throw error;
     }
 };
 
-// Afficher la page d'accueil avec un utilisateur au hasard
 export const showUser = async (req, res) => {
     try {
         const randomUser = await getRandomUser();
-        const formatedBirthdate = dayjs(randomUser.birthdate)
-          .locale("fr")
-          .format("D MMMM YYYY");
-        res.render("home", { user: { ...randomUser.toObject(), formatedBirthdate } });
+        const formattedBirthdate = formatDate(randomUser.birthdate);
+        res.render("home", { user: { ...randomUser.toObject(), formattedBirthdate } });
     } catch (err) {
         console.error(err);
         res.status(500).send("Erreur serveur");
     }
 };
 
-// Afficher tous les utilisateurs
 export const showAllUsers = async (req, res) => {
     try {
-        if (!req.session.userId) {  // Vérification de l'authentification
-            res.status(401).send('Utilisateur non authentifié');
-            return;
-        }
-  
         const users = await userService.getAllUsers();
         const filteredUsers = users.filter(user => user.id.toString() !== req.session.userId.toString());
-  
         const usersWithFormattedDate = filteredUsers.map(user => ({
             ...user.toObject(),
-            formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM YYYY")
+            formattedBirthdate: formatDate(user.birthdate)
         }));
   
-        res.render('listing', { 
-            users: usersWithFormattedDate,
-            isAdmin: req.session.isAdmin // Passer le statut admin à la vue
-        });
+        res.render('listing', { users: usersWithFormattedDate, isAdmin: req.session.isAdmin });
     } catch (err) {
         console.error(err);
         res.status(500).send('Erreur serveur');
     }
 };
 
-// Afficher le formulaire de modification du profil
 export const showEditForm = async (req, res) => {
     try {
         const user = await userService.getUserById(req.session.userId);
@@ -71,44 +55,14 @@ export const showEditForm = async (req, res) => {
     }
 };
 
-// Mettre à jour les informations du profil
 export const updateUser = async (req, res) => {
     try {
-        const {
-            gender,
-            category,
-            lastname,
-            firstname,
-            email,
-            password,
-            phone,
-            birthdate,
-            city,
-            country,
-            photo
-        } = req.body;
-
         if (!validateData(req.body)) {
             return res.status(400).send('Données invalides');
         }
 
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        const updateData = {
-            gender,
-            category,
-            lastname,
-            firstname,
-            email,
-            password: hashedPassword,  
-            phone,
-            birthdate,
-            city,
-            country,
-            photo
-        };
-
-        const updatedUser = await userService.updateUser(req.session.userId, updateData);
+        const updateData = {...req.body};
+        await userService.updateUser(req.session.userId, updateData);
         res.redirect('/home');
     
     } catch (err) {
@@ -117,6 +71,3 @@ export const updateUser = async (req, res) => {
     }
 };
 
-const validateData = ({ gender, category, lastname, firstname, email, password }) => {
-    return !!(gender && category && lastname && firstname && email && password);
-};
