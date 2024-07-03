@@ -1,7 +1,4 @@
-import dayjs from "dayjs";
-import bcrypt from 'bcrypt';
 import userService from '../services/userService.js'; 
-import mongoose from "mongoose";
 import User from "../models/User.js";
 
 const saltRounds = 10;

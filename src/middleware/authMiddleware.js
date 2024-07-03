@@ -7,8 +7,7 @@ export const authMiddleware = async (req, res, next) => {
   try {
     const loggedInUser = await userService.getUserById(req.session.userId);
 
-    if (!loggedInUser) {
-      // L'utilisateur n'existe plus, nettoyer la session
+    if (!loggedInUser) {n
       console.error("Session utilisateur référence un utilisateur inexistant");
       req.session.destroy();
       res.clearCookie('connect.sid'); 
