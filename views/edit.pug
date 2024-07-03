@@ -3,50 +3,64 @@ extends layout
 block content
   h1.heading Modifier mon profil
 
-  form(action="/admin/edit/" + user.id, method="POST")
+  form.container(action="/admin/edit/" + user.id, method="POST")
     input(type="hidden" name="id" value=user.id)
 
-    label(for="gender") Civilité
-    select(id="gender" name="gender")
-      option(value="male" selected=(user.gender === 'male')) Homme
-      option(value="female" selected=(user.gender === 'female')) Femme
-      option(value="other" selected=(user.gender === 'other')) Autre
+    div.select-container
+      label(for="gender") Civilité
+      select(id="gender" name="gender")
+        option(value="male" selected=(user.gender === 'male')) Homme
+        option(value="female" selected=(user.gender === 'female')) Femme
+        option(value="other" selected=(user.gender === 'other')) Autre
 
-    label(for="category") Catégorie
-    select(id="category" name="category")
-      option(value="Client" selected=(user.category === 'Client')) Client
-      option(value="Technique" selected=(user.category === 'Technique')) Technique
-      option(value="Marketing" selected=(user.category === 'Marketing')) Marketing
+    div.select-container
+      label(for="category") Catégorie
+      select(id="category" name="category")
+        option(value="Client" selected=(user.category === 'Client')) Client
+        option(value="Technique" selected=(user.category === 'Technique')) Technique
+        option(value="Marketing" selected=(user.category === 'Marketing')) Marketing
 
-    label(for="lastname") Nom
-    input#lastname(type="text" name="lastname" value=user.lastname required)
+    div.input-container
+      label(for="lastname") Nom
+      input#lastname(type="text" name="lastname" value=user.lastname required)
 
-    label(for="firstname") Prénom
-    input#firstname(type="text" name="firstname" value=user.firstname required)
+    div.input-container
+      label(for="firstname") Prénom
+      input#firstname(type="text" name="firstname" value=user.firstname required)
 
-    label(for="email") Email
-    input#email(type="email" name="email" value=user.email required)
+    div.input-container
+      label(for="email") Email
+      input#email(type="email" name="email" value=user.email required)
 
-    label(for="password") Mot de passe
-    input#password(type="password" name="password" required)
+    div.input-container
+      label(for="password") Mot de passe
+      input#password(type="password" name="password" required)
 
-    label(for="phone") Téléphone
-    input#phone(type="tel" name="phone" value=user.phone required)
+    div.input-container
+      label(for="phone") Téléphone
+      input#phone(type="tel" name="phone" value=user.phone required)
 
-    label(for="birthdate") Date de naissance
-    input#birthdate(type="date" name="birthdate" value=user.birthdate required)
+    div.input-container
+      label(for="birthdate") Date de naissance
+      input#birthdate(type="date" name="birthdate" value=user.birthdate required)
 
-    label(for="city") Ville
-    input#city(type="text" name="city" value=user.city required)
+    div.input-container
+      label(for="city") Ville
+      input#city(type="text" name="city" value=user.city required)
 
-    label(for="country") Pays
-    input#country(type="text" name="country" value=user.country required)
+    div.input-container
+      label(for="country") Pays
+      input#country(type="text" name="country" value=user.country required)
 
-    label(for="photo") URL de la photo
-    input#photo(type="url" name="photo" value=user.photo required)
+    div.input-container
+      label(for="photo") URL de la photo
+      input#photo(type="url" name="photo" value=user.photo required)
 
     if isAdmin
-      label(for="isAdmin") Administrateur
-      input#isAdmin(type="checkbox" name="isAdmin" checked=user.isAdmin)
+      div.input-container
+        label(for="isAdmin") Administrateur
+        input#isAdmin(type="checkbox" name="isAdmin" checked=user.isAdmin)
 
-    button(type="submit") Modifier
+      button.btn-primary(type="submit" style="font-size: 20px; padding: 8px 15px;")
+        i.fa.fa-edit()
+        |  Enregistrer
