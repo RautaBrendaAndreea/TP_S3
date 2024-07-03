@@ -191,10 +191,7 @@ input:focus {
 }
 
 .admin-btns {
-  margin: auto;
-  display: flex;
-  flex-direction: row;
-  align-content: space-between;
+  margin-top: 35px;
 }
 
 .btn-secondary {
