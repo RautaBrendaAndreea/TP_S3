@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import bcrypt from "bcrypt";
-import { dirname } from "path";
+import fs from "fs/promises";
+import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { getAllUsers, writeAllUsers } from "../services/userService.js";
 
@@ -70,7 +71,6 @@ export const showAllUsers = async (req, res) => {
     const usersWithFormattedDate = filteredUsers.map((user) => ({
       ...user,
       formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM"), // Formatage de la date de naissance
-      age: calculateAge(user.birthdate), // affichage de l'âge de l'utilisateur
     }));
 
     res.render("listing", {

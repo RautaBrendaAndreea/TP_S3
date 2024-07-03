@@ -30,12 +30,8 @@ block content
 
         if isAdmin 
           .admin-btns
-            a.btn-primary(href=`/admin/edit/${user.id}`)
-              i.fa.fa-edit
-              |  Modifier
-            button.delete-btn(data-id=user.id)
-              i.fa.fa-trash-alt
-              |  Supprimer
+            a.btn-secondary(href=`/admin/edit/${user._id}`) Modifier
+            button.delete-btn(data-id=user._id) Supprimer
 
   //- Modale pour confirmer la suppression
   #deleteModal.modal

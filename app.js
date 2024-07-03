@@ -1,12 +1,10 @@
 import dotenv from "dotenv";
 import express from "express";
-import helmet from "helmet";
-import mongoose from "mongoose";
 import path from "path";
 import router from "./router.js";
 import session from "express-session";
-import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
+import db from './src/config/db.js'
 
 dotenv.config();
 const app = express();
@@ -25,7 +23,6 @@ app.set("views", path.join(__dirname, "views"));
 
 // Middleware configuration
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
@@ -50,13 +47,11 @@ app.use((err, req, res, next) => {
 // Router principal
 app.use("/", router);
 
-// // MongoDB connection setup
-// mongoose.connect(process.env.MONGO_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// }).then(() => console.log('MongoDB connected successfully.'))
-//   .catch(err => console.error('MongoDB connection error:', err));
-
-app.listen(PORT, () => {
-  console.log(`App listening at http://localhost:${PORT}`);
+db.once('open', () => {
+  app.listen(PORT, () => {
+    console.log(`App listening at http://localhost:${PORT}`);
+    console.log('Connecté à MongoDB');
+  });
 });
+
+db.on('error', console.error.bind(console, 'Erreur de connexion à MongoDB : '));
