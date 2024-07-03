@@ -32,11 +32,6 @@ export const addNewUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     const userId = req.params.userId;
 
-    // Vérifiez si l'ID est un ObjectId valide
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ message: 'ID utilisateur non valide' });
-    }
-
     try {
         const user = await User.findById(userId);
         if (!user) {
@@ -44,6 +39,7 @@ export const deleteUser = async (req, res) => {
         }
 
         await User.findByIdAndDelete(userId);
+
         res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
     } catch (error) {
         console.error('Erreur lors de la suppression', error);
