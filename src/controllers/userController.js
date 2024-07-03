@@ -2,17 +2,9 @@ import dayjs from "dayjs";
 import bcrypt from 'bcrypt';
 import userService from '../services/userService.js';  
 import "dayjs/locale/fr.js";
-import userService from "../services/userService.js";
 import { validateData } from "../helpers/validation.js";
 
 const saltRounds = 10;
-
-// Fonction pour calculer l'âge à partir de la date de naissance
-const calculateAge = (birthdate) => {
-    const now = dayjs();
-    const birthDate = dayjs(birthdate);
-    return now.diff(birthDate, "year");
-  };
 
 
 // Fonction pour calculer l'âge à partir de la date de naissance
@@ -42,12 +34,8 @@ export const showUser = async (req, res) => {
       .locale("fr")
       .format("D MMMM");
 
-        const age = calculateAge(randomUser.birthdate);
-
-
-    console.log(formatedBirthdate);
-
     const age = calculateAge(randomUser.birthdate);
+    console.log(age)
 
     res.render("home", {
       user: { ...randomUser.toObject(), formatedBirthdate, age },
@@ -59,24 +47,28 @@ export const showUser = async (req, res) => {
 };
 
 export const showAllUsers = async (req, res) => {
-  try {
-    const users = await userService.getAllUsers();
-    const filteredUsers = users.filter(
-      (user) => user.id.toString() !== req.session.userId.toString()
-    );
-    const usersWithFormattedDate = filteredUsers.map((user) => ({
-      ...user.toObject(),
-      formattedBirthdate: formatDate(user.birthdate),
-    }));
-
-    res.render("listing", {
-      users: usersWithFormattedDate,
-      isAdmin: req.session.isAdmin,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur serveur");
-  }
+    try {
+        if (!req.session.userId) {  // Vérification de l'authentification
+            res.status(401).send('Utilisateur non authentifié');
+            return;
+        }
+  
+        const users = await userService.getAllUsers();
+        const filteredUsers = users.filter(user => user.id.toString() !== req.session.userId.toString());
+  
+        const usersWithFormattedDate = filteredUsers.map(user => ({
+            ...user.toObject(),
+            formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM YYYY")
+        }));
+  
+        res.render('listing', { 
+            users: usersWithFormattedDate,
+            isAdmin: req.session.isAdmin // Passer le statut admin à la vue
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erreur serveur');
+    }
 };
 
 export const showEditForm = async (req, res) => {

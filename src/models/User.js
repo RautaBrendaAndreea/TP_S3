@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 
 const { Schema } = mongoose;
 
@@ -11,29 +10,24 @@ const userSchema = new Schema({
     },
     firstname: {
         type: String,
-        required: true,
-        maxlength: 50
+        required: true
     },
     lastname: {
         type: String,
-        required: true,
-        maxlength: 50
+        required: true
     },
     email: {
         type: String,
         required: true,
-        unique: true,
-        match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Le format est invalid']
+        unique: true
     },
     password: {
         type: String,
-        required: true,
-        minlength: 8
+        required: true
     },
     phone: {
         type: String,
-        required: true,
-        match: [/^\+?\d{10,15}$/, 'Le format est invalid']
+        required: true
     },
     birthdate: {
         type: Date,
@@ -41,13 +35,11 @@ const userSchema = new Schema({
     },
     city: {
         type: String,
-        required: true,
-        maxlength: 100
+        required: true
     },
     country: {
         type: String,
-        required: true,
-        maxlength: 100
+        required: true
     },
     photo: {
         type: String,
@@ -64,12 +56,6 @@ const userSchema = new Schema({
     }
 }, {
     timestamps: true 
-});
-
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 12);
-    next();
 });
 
 const User = mongoose.model('User', userSchema);
