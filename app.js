@@ -3,7 +3,6 @@ import express from "express";
 import path from "path";
 import router from "./router.js";
 import session from "express-session";
-import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 import db from './src/config/db.js'
 
@@ -24,7 +23,6 @@ app.set("views", path.join(__dirname, "views"));
 
 // Middleware configuration
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 

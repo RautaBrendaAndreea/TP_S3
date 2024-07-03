@@ -1,25 +1,27 @@
 import bcrypt from "bcrypt";
 import userService from '../services/userService.js';  
 
+const LOGIN_ERROR_MSG = "Invalid email or password";
+
 export const showLoginPage = (req, res) => {
   res.render("login", { error: null });
 };
 
-// Gérer la soumission du formulaire de connexion
 export const handleLogin = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
 
   try {
-    const user = await userService.getUserByEmail(email);  
+    const user = await userService.getUserByEmail(email); 
+    console.log(user);  
 
     if (!user) {
-      return res.render("login", { error: "Invalid email or password" });
+      return res.render("login", { error: LOGIN_ERROR_MSG });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
-      return res.render("login", { error: "Invalid email or password" });
+      return res.render("login", { error: LOGIN_ERROR_MSG });
     }
 
     req.session.userId = user.id;
@@ -39,7 +41,6 @@ export const handleLogout = (req, res) => {
       return res.redirect("/home");
     }
     res.clearCookie('connect.sid');
-    console.log("Session destroyed and cookie cleared");
     res.redirect("/login");
   });
 };
