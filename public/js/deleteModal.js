@@ -19,25 +19,25 @@ document.addEventListener("DOMContentLoaded", function () {
       confirmButton.setAttribute("data-id", userId);
     });
   });
-});
 
-confirmButton.addEventListener("click", function () {
-  const userId = confirmButton.getAttribute("data-id");
-  fetch(`/delete/${userId}`, { method: "DELETE" })
-    .then((response) => {
-      if (response.ok) {
-        alert("Utilisateur supprimé avec succès");
-        window.location.reload();
-      } else {
-        alert("Une erreur est survenue lors de la suppression");
-      }
-    })
-    .catch((error) => {
-      console.error("Erreur lors de la suppression", error);
-      alert("Erreur lors de la suppression");
-    });
-});
+  confirmButton.addEventListener("click", function () {
+    const userId = confirmButton.getAttribute("data-id");
+    fetch(`/delete/${userId}`, { method: "DELETE" })
+      .then((response) => {
+        if (response.ok) {
+          alert("Utilisateur supprimé avec succès");
+          window.location.reload();
+        } else {
+          alert("Une erreur est survenue lors de la suppression");
+        }
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la suppression", error);
+        alert("Erreur lors de la suppression");
+      });
+  });
 
-cancelButton.addEventListener("click", function () {
-  modal.style.display = "none";
+  cancelButton.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
 });

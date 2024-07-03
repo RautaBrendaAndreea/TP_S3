@@ -9,7 +9,7 @@ block content
         input(type="email", name="email", placeholder="Entrez votre email", required)
         if errors && errors.length > 0
           each error in errors 
-            p.error-message= error
+            p.error-message= LOGIN_ERROR_MSG
       .form-group
         input(type="password", name="password", placeholder="Entrez votre mot de passe", required)
       button.btn-primary(type="submit") Connexion
