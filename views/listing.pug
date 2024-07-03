@@ -20,11 +20,12 @@ block content
   .card-container
     each user in users
       .card(data-name=user.firstname, data-location=user.city, data-category=user.category)
-        img(src=user.photo, alt=`${user.firstname} ${user.lastname}`)
-        h3= `${user.firstname} ${user.lastname}`
+        img(src=user.photo, alt=`${user.firstname} ${user.lastname} `)
+        h3= `${user.firstname} ${user.lastname} (${user.age})`
         h4= `${user.city}, ${user.country}`
         p= `${user.email}`
         p= `${user.phone}`
+        p.category= `${user.category}`
         p= `Anniversaire: ${user.formatedBirthdate}`
 
         if isAdmin 

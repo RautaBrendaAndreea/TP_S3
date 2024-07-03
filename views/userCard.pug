@@ -2,9 +2,13 @@ head
   link(rel="stylesheet", href="/css/userCard.css")
 
 .card
+  p.category= `${user.category}`
   img(src=user.photo, alt=`${user.firstname} ${user.lastname}`)
-  h3= `${user.firstname} ${user.lastname}`
+  h3= `${user.firstname} ${user.lastname} (${user.age})`
   h4= `${user.city}, ${user.country}`
   p= `${user.email}`
   p= `${user.phone}`
   p= `Anniversaire: ${user.formatedBirthdate}`
+
+
+script(src="/js/userCard.js")
