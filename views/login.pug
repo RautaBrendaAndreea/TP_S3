@@ -7,9 +7,12 @@ block content
     .form-container
       .form-group
         input(type="email", name="email", placeholder="Entrez votre email", required)
+        if errors && errors.length > 0
+          each error in errors 
+            p.error-message= error
       .form-group
         input(type="password", name="password", placeholder="Entrez votre mot de passe", required)
       button.btn-primary(type="submit") CONNEXION
 
-  //- if error
-  //-   p.error= error
+  if error
+    p.error= error
