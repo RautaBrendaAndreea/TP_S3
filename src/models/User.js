@@ -10,24 +10,29 @@ const userSchema = new Schema({
     },
     firstname: {
         type: String,
-        required: true
+        required: true,
+        maxlength: 50
     },
     lastname: {
         type: String,
-        required: true
+        required: true,
+        maxlength: 50
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Le format est invalid']
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        minlength: 8
     },
     phone: {
         type: String,
-        required: true
+        required: true,
+        match: [/^\+?\d{10,15}$/, 'Le format est invalid']
     },
     birthdate: {
         type: Date,
@@ -35,11 +40,13 @@ const userSchema = new Schema({
     },
     city: {
         type: String,
-        required: true
+        required: true,
+        maxlength: 100
     },
     country: {
         type: String,
-        required: true
+        required: true,
+        maxlength: 100
     },
     photo: {
         type: String,
