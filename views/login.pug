@@ -3,16 +3,12 @@ extends layout
 block content
   h1.heading Connexion
   
-  form(action="/login", method="POST")
-    .form-container
-      .form-group
+  form.container(action="/login", method="POST")
+      div.input-container
         input(type="email", name="email", placeholder="Entrez votre email", required)
-        if errors && errors.length > 0
-          each error in errors 
-            p.error-message= LOGIN_ERROR_MSG
-      .form-group
+      div.input-container
         input(type="password", name="password", placeholder="Entrez votre mot de passe", required)
-      button.btn-primary(type="submit") Connexion
 
-  if error
-    p.error= error
+      if error
+        p.error= error
+      button.btn-primary(type="submit" style="font-size: 18px; padding: 8px 15px;") Connexion
