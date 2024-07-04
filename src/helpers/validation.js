@@ -39,6 +39,16 @@ export const validateData = ({
     errors.email = "L'email n'est pas au bon format.";
   }
 
+  // Validation du format de l'email
+  if (email && !isValidEmail(email)) {
+    errors.email = "L'email n'est pas au bon format.";
+  } else if (email) {
+    const existingUser = await userService.getUserByEmail(email);
+    if (existingUser) {
+      errors.email = "L'email est deja existant.";
+    }
+  }
+
   // Regex pour le mdp, doit contenir au moins 8 caractères, une majuscule et une minuscule
   if (password && !isValidPassword(password)) {
     errors.password =
