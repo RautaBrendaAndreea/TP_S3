@@ -47,28 +47,33 @@ export const showUser = async (req, res) => {
 };
 
 export const showAllUsers = async (req, res) => {
-    try {
-        if (!req.session.userId) {  // Vérification de l'authentification
-            res.status(401).send('Utilisateur non authentifié');
-            return;
-        }
-  
-        const users = await userService.getAllUsers();
-        const filteredUsers = users.filter(user => user.id.toString() !== req.session.userId.toString());
-  
-        const usersWithFormattedDate = filteredUsers.map(user => ({
-            ...user.toObject(),
-            formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM YYYY")
-        }));
-  
-        res.render('listing', { 
-            users: usersWithFormattedDate,
-            isAdmin: req.session.isAdmin // Passer le statut admin à la vue
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Erreur serveur');
+  try {
+    if (!req.session.userId) {
+      // Vérification de l'authentification
+      res.status(401).send("Utilisateur non authentifié");
+      return;
     }
+
+    const users = await userService.getAllUsers();
+    const filteredUsers = users.filter(
+      (user) => user.id.toString() !== req.session.userId.toString()
+    );
+
+    // Formater les dates de naissance de chaque utilisateur
+    const usersWithFormattedDate = filteredUsers.map((user) => ({
+      ...user.toObject(),
+      formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM"), // Formatage de la date de naissance
+      age: calculateAge(user.birthdate), // affichage de l'âge de l'utilisateur
+    }));
+
+    res.render("listing", {
+      users: usersWithFormattedDate,
+      isAdmin: req.session.isAdmin, // Passer le statut admin à la vue
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Erreur serveur");
+  }
 };
 
 export const showEditForm = async (req, res) => {

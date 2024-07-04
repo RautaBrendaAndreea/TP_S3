@@ -30,6 +30,14 @@ a {
 a:hover {
   text-decoration: underline;
 }
+.error {
+  color: rgb(230, 100, 100);
+  font-size: 14px !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  width: 90%;
+}
 
 /* Style des boutons */
 .btn-primary {
