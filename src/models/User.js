@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 
 const { Schema } = mongoose;
 
@@ -28,7 +27,11 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        minlength: 8
+        minlength: 8,
+        match: [
+            /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            'Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial'
+        ]
     },
     phone: {
         type: String,
@@ -64,12 +67,6 @@ const userSchema = new Schema({
     }
 }, {
     timestamps: true 
-});
-
-userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 12);
-    next();
 });
 
 const User = mongoose.model('User', userSchema);

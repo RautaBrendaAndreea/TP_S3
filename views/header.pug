@@ -17,7 +17,7 @@ header.navbar
           | Listing
         a(href="/edit") 
           img.profile-card(src=loggedInUser.photo, alt="Avatar et éditer le profil")
-        form(action="/logout", method="POST", style="display: inline;")
+        form(action="/logout", method="GET", style="display: inline;")
           button.btn-secondary(type="submit")
             i.fa.fa-sign-out-alt(style="padding: 5px;")
             | Déconnexion
