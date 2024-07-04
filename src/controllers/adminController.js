@@ -51,6 +51,14 @@ export const addNewUser = async (req, res) => {
       photo,
     });
 
+    // Validation du format de l'email
+    if (email) {
+      const existingUser = userService.getUserByEmail(email);
+      if (existingUser) {
+        errors.email = "L'email est deja existant.";
+      }
+    }
+
     if (Object.keys(errors).length > 0) {
       // Si des erreurs sont présentes, retourner le formulaire avec les erreurs
       return res.render("add", {
