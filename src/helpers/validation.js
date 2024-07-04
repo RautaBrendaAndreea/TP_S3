@@ -43,7 +43,7 @@ export const validateData = ({
   if (email && !isValidEmail(email)) {
     errors.email = "L'email n'est pas au bon format.";
   } else if (email) {
-    const existingUser = await userService.getUserByEmail(email);
+    const existingUser =  userService.getUserByEmail(email);
     if (existingUser) {
       errors.email = "L'email est deja existant.";
     }
