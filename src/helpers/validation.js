@@ -1,5 +1,5 @@
 // Fonction pour valider les données
-export const validateData = ({
+export const validateData = async ({
   gender,
   category,
   lastname,

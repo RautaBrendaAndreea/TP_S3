@@ -36,6 +36,29 @@ export const addNewUser = async (req, res) => {
       isAdmin,
     } = req.body;
 
+    // Validation des données du formulaire
+    const errors = validateData({
+      gender,
+      category,
+      lastname,
+      firstname,
+      email,
+      password,
+      phone,
+      birthdate,
+      city,
+      country,
+      photo,
+    });
+
+    if (Object.keys(errors).length > 0) {
+      // Si des erreurs sont présentes, retourner le formulaire avec les erreurs
+      return res.render("add", {
+        formData: req.body,
+        errors,
+      });
+    }
+
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const newUser = {

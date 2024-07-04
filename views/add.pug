@@ -13,7 +13,6 @@ block content
       select(id="gender" name="gender" required)
         option(value="male") Homme
         option(value="female") Femme
-        i.fa.fa-chevron-down
   
     if errors && errors.gender
       div.error
@@ -25,7 +24,7 @@ block content
         option(value="Client") Client
         option(value="Technique") Technique
         option(value="Marketing") Marketing
-        i.fa.fa-chevron-down
+
     if errors && errors.category
       div.error
         p.form-error= errors.category
