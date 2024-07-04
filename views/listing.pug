@@ -23,10 +23,10 @@ block content
 
         if isAdmin 
           .admin-btns
-            a.btn-primary(href=`/admin/edit/${user.id}`)
+            a.btn-primary(href=`/admin/edit/${user._id}`)
               i.fa.fa-edit
               |  Modifier
-            button.delete-btn(data-id=user.id)
+            button.delete-btn(data-id=user._id)
               i.fa.fa-trash-alt
               |  Supprimer
 
