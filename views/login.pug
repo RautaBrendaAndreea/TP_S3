@@ -4,11 +4,16 @@ block content
   h1.heading Connexion
   
   form.container(action="/login", method="POST")
-      div.input-container
+    div.input-container
+      div.input-with-icon
         input(type="email", name="email", placeholder="Entrez votre email", required)
-      div.input-container
-        input(type="password", name="password", placeholder="Entrez votre mot de passe", required)
+    div.input-container
+      div.input-with-icon
+        input(type="password", name="password", id="passwordInput", placeholder="Entrez votre mot de passe", required)
+        span#toggle-icon.fa.fa-eye-slash(type="button", onclick="togglePassword()")
+    
+    if error
+      p.error= error
+    button.btn-primary(type="submit" style="font-size: 18px; padding: 8px 15px;") Connexion
 
-      if error
-        p.error= error
-      button.btn-primary(type="submit" style="font-size: 18px; padding: 8px 15px;") Connexion
+  script(src="/js/showHidePassword.js")

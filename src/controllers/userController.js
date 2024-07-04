@@ -1,11 +1,10 @@
 import dayjs from "dayjs";
-import bcrypt from 'bcrypt';
-import userService from '../services/userService.js';  
+import bcrypt from "bcrypt";
+import userService from "../services/userService.js";
 import "dayjs/locale/fr.js";
 import { validateData } from "../helpers/validation.js";
 
 const saltRounds = 10;
-
 
 // Fonction pour calculer l'âge à partir de la date de naissance
 const calculateAge = (birthdate) => {
@@ -35,7 +34,7 @@ export const showUser = async (req, res) => {
       .format("D MMMM");
 
     const age = calculateAge(randomUser.birthdate);
-    console.log(age)
+    console.log(age);
 
     res.render("home", {
       user: { ...randomUser.toObject(), formatedBirthdate, age },
@@ -82,7 +81,7 @@ export const showEditForm = async (req, res) => {
     if (!user) {
       return res.status(404).send("Utilisateur non trouvé");
     }
-    res.render("edit", { user: user.toObject() });
+    res.render("edit", { user: user.toObject(), errors: {} });
   } catch (err) {
     console.error(err);
     res.status(500).send("Erreur serveur");
@@ -92,45 +91,64 @@ export const showEditForm = async (req, res) => {
 // Mettre à jour les informations du profil
 export const updateUser = async (req, res) => {
   try {
-      const {
-          gender,
-          category,
-          lastname,
-          firstname,
-          email,
-          password,
-          phone,
-          birthdate,
-          city,
-          country,
-          photo
-      } = req.body;
+    const {
+      gender,
+      category,
+      lastname,
+      firstname,
+      email,
+      password,
+      phone,
+      birthdate,
+      city,
+      country,
+      photo,
+    } = req.body;
 
-      if (!validateData(req.body)) {
-          return res.status(400).send('Données invalides');
-      }
+    // Validation des données du formulaire
+    const errors = validateData({
+      gender,
+      category,
+      lastname,
+      firstname,
+      email,
+      password,
+      phone,
+      birthdate,
+      city,
+      country,
+      photo,
+    });
 
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
+    if (Object.keys(errors).length > 0) {
+      // Si des erreurs sont présentes, retourner le formulaire avec les erreurs
+      return res.render("edit", {
+        user: { ...req.body },
+        errors,
+      });
+    }
 
-      const updateData = {
-          gender,
-          category,
-          lastname,
-          firstname,
-          email,
-          password: hashedPassword,  
-          phone,
-          birthdate,
-          city,
-          country,
-          photo
-      };
+    // Hash du mot de passe si modifié
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      await userService.updateUser(req.session.userId, updateData);
-      res.redirect('/home');
-  
+    const updateData = {
+      gender,
+      category,
+      lastname,
+      firstname,
+      email,
+      password: hashedPassword,
+      phone,
+      birthdate,
+      city,
+      country,
+      photo,
+    };
+
+    await userService.updateUser(req.session.userId, updateData);
+    res.redirect("/home");
   } catch (err) {
-      console.error(err);
-      res.status(500).send('Erreur serveur');
+    console.error(err);
+    res.status(500).send("Erreur serveur");
   }
 };

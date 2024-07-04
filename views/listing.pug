@@ -19,19 +19,16 @@ block content
   //- Container des userCards
   .card-container
     each user in users
-      .card(data-name=user.firstname, data-location=user.city, data-category=user.category)
-        img(src=user.photo, alt=`${user.firstname} ${user.lastname} `)
-        h3= `${user.firstname} ${user.lastname} (${user.age})`
-        h4= `${user.city}, ${user.country}`
-        p= `${user.email}`
-        p= `${user.phone}`
-        p.category= `${user.category}`
-        p= `Anniversaire: ${user.formatedBirthdate}`
+      include userCard
 
         if isAdmin 
           .admin-btns
-            a.btn-primary(href=`/admin/edit/${user._id}`) Modifier
-            button.delete-btn(data-id=user._id) Supprimer
+            a.btn-primary(href=`/admin/edit/${user.id}`)
+              i.fa.fa-edit
+              |  Modifier
+            button.delete-btn(data-id=user.id)
+              i.fa.fa-trash-alt
+              |  Supprimer
 
   //- Modale pour confirmer la suppression
   #deleteModal.modal

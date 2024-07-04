@@ -13,7 +13,10 @@ block content
       select(id="gender" name="gender" required)
         option(value="male") Homme
         option(value="female") Femme
-        i.fa.fa-chevron-down
+  
+    if errors && errors.gender
+      div.error
+        p.form-error= errors.gender
 
     div.select-container
       label(for="category") Catégorie
@@ -21,44 +24,87 @@ block content
         option(value="Client") Client
         option(value="Technique") Technique
         option(value="Marketing") Marketing
-        i.fa.fa-chevron-down
+
+    if errors && errors.category
+      div.error
+        p.form-error= errors.category
 
     div.input-container
       label(for="lastname") Nom
       input#lastname(type="text" name="lastname" required)
 
+    if errors && errors.lastname
+      div.error
+        p.form-error= errors.lastname
+
     div.input-container
       label(for="firstname") Prénom
       input#firstname(type="text" name="firstname" required)
+    
+    if errors && errors.firstname
+      div.error
+        p.form-error= errors.firstname
 
     div.input-container
       label(for="email") Email
       input#email(type="email" name="email" required)
 
+    if errors && errors.email
+      div.error
+        p.form-error= errors.email
+
     div.input-container
       label(for="password") Mot de passe
-      input#password(type="password" name="password" required)
+      div.input-with-icon(style="width: 68%")
+        input#password(type="password" name="password" required)
+        span#toggle-icon.fa.fa-eye-slash(type="button", onclick="togglePassword()")
+
+    if errors && errors.password
+      div.error
+        p.form-error= errors.password
 
     div.input-container
       label(for="phone") Téléphone
       input#phone(type="tel" name="phone" required)
 
+    if errors && errors.phone
+      div.error
+        p.form-error= errors.phone
+
     div.input-container
       label(for="birthdate") Date de naissance
       input#birthdate(type="date" name="birthdate" required)
+
+    if errors && errors.birthdate
+      div.error
+        p.form-error= errors.birthdate
 
     div.input-container
       label(for="city") Ville
       input#city(type="text" name="city" required)
 
+    if errors && errors.city
+      div.error
+        p.form-error= errors.city
+
     div.input-container
       label(for="country") Pays
       input#country(type="text" name="country" required)
+
+    if errors && errors.country
+      div.error
+        p.form-error= errors.country
 
     div.input-container
       label(for="photo") URL de la photo
       input#photo(type="url" name="photo" required)
 
+    if errors && errors.photo
+      div.error
+        p.form-error= errors.photo
+
     button.btn-primary(type="submit" style="font-size: 20px; padding: 8px 15px;")
       i.fa.fa-plus
       |  Ajouter
+
+  script(src="/js/showHidePassword.js")

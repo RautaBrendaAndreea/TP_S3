@@ -64,6 +64,17 @@
   padding: 5px;
   font-size: 12px !important;
   color: #fff !important;
-  background-color: #c2b4be;
   border-radius: 5px;
+}
+
+.marketing {
+  background-color: #b3c8cf;
+}
+
+.client {
+  background-color: #e1acac;
+}
+
+.technique {
+  background-color: #ad88c6;
 }

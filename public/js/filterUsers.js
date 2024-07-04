@@ -1,43 +1,28 @@
 const searchNameInput = document.getElementById("searchName");
 const searchLocationInput = document.getElementById("searchLocation");
 const searchCategorySelect = document.getElementById("searchCategory");
-const cards = document.querySelectorAll(".card");
 
-searchNameInput.addEventListener("input", () => {
-  const searchName = searchNameInput.value.trim().toLowerCase();
-  filterUsers(searchName, "name");
-});
+searchName.addEventListener("input", filterCards);
+searchLocation.addEventListener("input", filterCards);
+searchCategory.addEventListener("change", filterCards);
 
-searchLocationInput.addEventListener("input", () => {
-  const searchLocation = searchLocationInput.value.trim().toLowerCase();
-  filterUsers(searchLocation, "location");
-});
+function filterCards() {
+  const nameValue = searchName.value.toLowerCase();
+  const locationValue = searchLocation.value.toLowerCase();
+  const categoryValue = searchCategory.value;
 
-searchCategorySelect.addEventListener("change", () => {
-  const searchCategory = searchCategorySelect.value;
-  filterUsers(searchCategory, "category");
-});
+  const cards = document.querySelectorAll(".card-container .card");
 
-function filterUsers(searchTerm, type) {
   cards.forEach((card) => {
-    const name = card.getAttribute("data-name");
-    const location = card.getAttribute("data-location");
+    const name = card.getAttribute("data-name").toLowerCase();
+    const location = card.getAttribute("data-location").toLowerCase();
     const category = card.getAttribute("data-category");
 
-    let shouldDisplay = true;
+    const isVisible =
+      name.includes(nameValue) &&
+      (location.includes(locationValue) || !locationValue) &&
+      (category === categoryValue || categoryValue === "");
 
-    if (type === "name" && name) {
-      shouldDisplay = name.toLowerCase().includes(searchTerm);
-    } else if (type === "location" && location) {
-      shouldDisplay = location.toLowerCase().includes(searchTerm);
-    } else if (type === "category" && category) {
-      shouldDisplay = searchTerm === "" || category === searchTerm;
-    }
-
-    if (shouldDisplay) {
-      card.style.display = "flex";
-    } else {
-      card.style.display = "none";
-    }
+    card.style.display = isVisible ? "" : "none";
   });
 }
