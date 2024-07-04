@@ -1,5 +1,8 @@
+import userService from "../services/userService.js";
+
+
 // Fonction pour valider les données
-export const validateData = async ({
+export const validateData = ({
   gender,
   category,
   lastname,

@@ -12,7 +12,6 @@ export const handleLogin = async (req, res) => {
 
   try {
     const user = await userService.getUserByEmail(email); 
-    console.log('je suis la', user, password);  
 
     if (!user) {
       return res.render("login", { error: LOGIN_ERROR_MSG });
