@@ -2,7 +2,12 @@ head
   link(rel="stylesheet", href="/css/userCard.css")
 
 .card
-  p.category= `${user.category}`
+  if user.category =='Marketing'
+    p.category.marketing= `${user.category}`
+  if user.category =='Client'
+    p.category.client= `${user.category}`
+  if user.category =='Technique'
+    p.category.technique= `${user.category}`
   img(src=user.photo, alt=`${user.firstname} ${user.lastname}`)
   h3= `${user.firstname} ${user.lastname} (${user.age})`
   h4= `${user.city}, ${user.country}`

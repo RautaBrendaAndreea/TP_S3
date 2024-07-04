@@ -19,14 +19,7 @@ block content
   //- Container des userCards
   .card-container
     each user in users
-      .card(data-name=user.firstname, data-location=user.city, data-category=user.category)
-        img(src=user.photo, alt=`${user.firstname} ${user.lastname} `)
-        h3= `${user.firstname} ${user.lastname} (${user.age})`
-        h4= `${user.city}, ${user.country}`
-        p= `${user.email}`
-        p= `${user.phone}`
-        p.category= `${user.category}`
-        p= `Anniversaire: ${user.formatedBirthdate}`
+      include userCard
 
         if isAdmin 
           .admin-btns

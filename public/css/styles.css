@@ -31,21 +31,17 @@ a:hover {
   text-decoration: underline;
 }
 .error {
-  color: rgb(230, 100, 100);
-  font-size: 14px !important;
   display: flex;
   flex-direction: row;
   justify-content: right;
-  width: 90%;
+  color: rgb(230, 100, 100);
+  font-size: 14px;
+  width: 100%;
 }
 
-.error {
+.form-error {
+  margin-top: 5px;
   color: rgb(230, 100, 100);
-  font-size: 14px !important;
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-  width: 90%;
 }
 
 /* Style des boutons */
@@ -303,7 +299,7 @@ input:focus {
 .search-container {
   display: flex;
   flex-direction: row;
-  align-items: space-between;
+  justify-content: center;
   margin-bottom: 20px;
   gap: 20px;
 }
