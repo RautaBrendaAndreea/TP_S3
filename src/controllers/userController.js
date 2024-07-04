@@ -84,17 +84,48 @@ export const showEditForm = async (req, res) => {
   }
 };
 
+// Mettre à jour les informations du profil
 export const updateUser = async (req, res) => {
   try {
-    if (!validateData(req.body)) {
-      return res.status(400).send("Données invalides");
-    }
+      const {
+          gender,
+          category,
+          lastname,
+          firstname,
+          email,
+          password,
+          phone,
+          birthdate,
+          city,
+          country,
+          photo
+      } = req.body;
 
-    const updateData = { ...req.body };
-    await userService.updateUser(req.session.userId, updateData);
-    res.redirect("/home");
+      if (!validateData(req.body)) {
+          return res.status(400).send('Données invalides');
+      }
+
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      const updateData = {
+          gender,
+          category,
+          lastname,
+          firstname,
+          email,
+          password: hashedPassword,  
+          phone,
+          birthdate,
+          city,
+          country,
+          photo
+      };
+
+      await userService.updateUser(req.session.userId, updateData);
+      res.redirect('/home');
+  
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur serveur");
+      console.error(err);
+      res.status(500).send('Erreur serveur');
   }
 };
