@@ -82,7 +82,7 @@ export const deleteUser = async (req, res) => {
 // Afficher le formulaire d'édition pour l'administrateur
 export const showAdminEditForm = async (req, res) => {
     try {
-        const userId = req.params.id;
+        const userId = req.params.userId;
         const user = await userService.getUserById(userId);
 
         if (!user) {
@@ -99,7 +99,7 @@ export const showAdminEditForm = async (req, res) => {
 // Mettre à jour un utilisateur par un administrateur
 export const updateAdminUser = async (req, res) => {
     try {
-        const userId = req.params.id;
+        const userId = req.params.userId;
         const {
             gender,
             category,
@@ -131,6 +131,11 @@ export const updateAdminUser = async (req, res) => {
             photo,
             isAdmin: isAdmin === 'on'
         };
+
+        const user = await userService.getUserById(userId);
+        if (!user) {
+            return res.status(404).send('Utilisateur non trouvé');
+        }
 
         await userService.updateUser(userId, updateData);
         res.redirect('/listing');
