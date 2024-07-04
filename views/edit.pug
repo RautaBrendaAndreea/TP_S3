@@ -53,7 +53,9 @@ block content
 
     div.input-container
       label(for="password") Mot de passe
-      input#password(type="password" name="password" required)
+      div.input-with-icon(style="width: 68%")
+        input#password(type="password" name="password" required)
+        span#toggle-icon.fa.fa-eye-slash(type="button", onclick="togglePassword()" )
 
     if errors && errors.password
       div.error
@@ -107,3 +109,5 @@ block content
       button.btn-primary(type="submit" style="font-size: 20px; padding: 8px 15px;")
         i.fa.fa-edit()
         |  Enregistrer
+
+  script(src="/js/showHidePassword.js")

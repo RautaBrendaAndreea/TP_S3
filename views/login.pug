@@ -5,10 +5,12 @@ block content
   
   form.container(action="/login", method="POST")
     div.input-container
-      input(type="email", name="email", placeholder="Entrez votre email", required)
+      div.input-with-icon
+        input(type="email", name="email", placeholder="Entrez votre email", required)
     div.input-container
-      input(type="password", name="password", id="passwordInput", placeholder="Entrez votre mot de passe", required)
-      i.fa.fa-eye-slash#toggle-icon(type="button", onclick="togglePassword()" style= "color: #2e0f44;")
+      div.input-with-icon
+        input(type="password", name="password", id="passwordInput", placeholder="Entrez votre mot de passe", required)
+        span#toggle-icon.fa.fa-eye-slash(type="button", onclick="togglePassword()")
     
     if error
       p.error= error

@@ -296,6 +296,19 @@ input:focus {
   border-inline: 2px solid #8763a0;
 }
 
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-with-icon span {
+  position: absolute;
+  right: 25px;
+  cursor: pointer;
+}
+
 /* Style de la page listing */
 .search-container {
   display: flex;
