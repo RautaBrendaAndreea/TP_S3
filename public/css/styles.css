@@ -168,7 +168,8 @@ a:hover {
   background-color: #8763a0;
   color: #fff;
   cursor: pointer;
-  border-radius: 15px;
+  border-radius: 35px;
+  padding: 15px 25px;
 }
 
 #backToTop:hover {

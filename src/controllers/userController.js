@@ -34,7 +34,7 @@ export const showUser = async (req, res) => {
       .format("D MMMM");
 
     const age = calculateAge(randomUser.birthdate);
-    console.log(age)
+    console.log(age);
 
     res.render("home", {
       user: { ...randomUser.toObject(), formatedBirthdate, age },

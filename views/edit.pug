@@ -11,7 +11,6 @@ block content
       select(id="gender" name="gender")
         option(value="male" selected=(user.gender === 'male')) Homme
         option(value="female" selected=(user.gender === 'female')) Femme
-        option(value="other" selected=(user.gender === 'other')) Autre
 
     if errors && errors.gender
       div.error

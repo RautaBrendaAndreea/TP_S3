@@ -48,7 +48,7 @@ export const validateData = ({
 // Fonction pour valider le format de l'email
 const isValidEmail = (email) => {
   // Utilisation d'une regex  pour valider l'email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   return emailRegex.test(email);
 };
 
