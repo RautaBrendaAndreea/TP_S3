@@ -1,5 +1,8 @@
+import userService from "../services/userService.js";
+
+
 // Fonction pour valider les données
-export const validateData = async ({
+export const validateData = ({
   gender,
   category,
   lastname,
@@ -34,6 +37,16 @@ export const validateData = async ({
   // Validation du format de l'email
   if (email && !isValidEmail(email)) {
     errors.email = "L'email n'est pas au bon format.";
+  }
+
+  // Validation du format de l'email
+  if (email && !isValidEmail(email)) {
+    errors.email = "L'email n'est pas au bon format.";
+  } else if (email) {
+    const existingUser = await userService.getUserByEmail(email);
+    if (existingUser) {
+      errors.email = "L'email est deja existant.";
+    }
   }
 
   // Regex pour le mdp, doit contenir au moins 8 caractères, une majuscule et une minuscule

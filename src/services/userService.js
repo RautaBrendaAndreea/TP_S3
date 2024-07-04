@@ -33,9 +33,9 @@ const userService = {
   },
 
   // Mettre à jour un utilisateur
-  updateUser: async (userId, updateData) => {
+  updateUser: async (id, updateData) => {
     try {
-      const user = await User.findByIdAndUpdate(userId, updateData, { new: true });
+      const user = await User.findByIdAndUpdate(id, updateData, { new: true });
       return user;
     } catch (error) {
       throw error;
