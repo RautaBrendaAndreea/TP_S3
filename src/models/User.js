@@ -27,7 +27,11 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        minlength: 8
+        minlength: 8,
+        match: [
+            /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            'Le mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial'
+        ]
     },
     phone: {
         type: String,
