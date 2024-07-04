@@ -47,28 +47,33 @@ export const showUser = async (req, res) => {
 };
 
 export const showAllUsers = async (req, res) => {
-    try {
-        if (!req.session.userId) {  // Vérification de l'authentification
-            res.status(401).send('Utilisateur non authentifié');
-            return;
-        }
-  
-        const users = await userService.getAllUsers();
-        const filteredUsers = users.filter(user => user.id.toString() !== req.session.userId.toString());
-  
-        const usersWithFormattedDate = filteredUsers.map(user => ({
-            ...user.toObject(),
-            formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM YYYY")
-        }));
-  
-        res.render('listing', { 
-            users: usersWithFormattedDate,
-            isAdmin: req.session.isAdmin // Passer le statut admin à la vue
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Erreur serveur');
+  try {
+    if (!req.session.userId) {
+      // Vérification de l'authentification
+      res.status(401).send("Utilisateur non authentifié");
+      return;
     }
+
+    const users = await userService.getAllUsers();
+    const filteredUsers = users.filter(
+      (user) => user.id.toString() !== req.session.userId.toString()
+    );
+
+    // Formater les dates de naissance de chaque utilisateur
+    const usersWithFormattedDate = filteredUsers.map((user) => ({
+      ...user.toObject(),
+      formatedBirthdate: dayjs(user.birthdate).locale("fr").format("D MMMM"), // Formatage de la date de naissance
+      age: calculateAge(user.birthdate), // affichage de l'âge de l'utilisateur
+    }));
+
+    res.render("listing", {
+      users: usersWithFormattedDate,
+      isAdmin: req.session.isAdmin, // Passer le statut admin à la vue
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Erreur serveur");
+  }
 };
 
 export const showEditForm = async (req, res) => {
@@ -84,17 +89,48 @@ export const showEditForm = async (req, res) => {
   }
 };
 
+// Mettre à jour les informations du profil
 export const updateUser = async (req, res) => {
   try {
-    if (!validateData(req.body)) {
-      return res.status(400).send("Données invalides");
-    }
+      const {
+          gender,
+          category,
+          lastname,
+          firstname,
+          email,
+          password,
+          phone,
+          birthdate,
+          city,
+          country,
+          photo
+      } = req.body;
 
-    const updateData = { ...req.body };
-    await userService.updateUser(req.session.userId, updateData);
-    res.redirect("/home");
+      if (!validateData(req.body)) {
+          return res.status(400).send('Données invalides');
+      }
+
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      const updateData = {
+          gender,
+          category,
+          lastname,
+          firstname,
+          email,
+          password: hashedPassword,  
+          phone,
+          birthdate,
+          city,
+          country,
+          photo
+      };
+
+      await userService.updateUser(req.session.userId, updateData);
+      res.redirect('/home');
+  
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur serveur");
+      console.error(err);
+      res.status(500).send('Erreur serveur');
   }
 };

@@ -9,11 +9,10 @@ export const showLoginPage = (req, res) => {
 
 export const handleLogin = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
 
   try {
     const user = await userService.getUserByEmail(email); 
-    console.log(user);  
+    console.log('je suis la', user, password);  
 
     if (!user) {
       return res.render("login", { error: LOGIN_ERROR_MSG });

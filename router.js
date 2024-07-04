@@ -39,7 +39,7 @@ router.get('/listing', showAllUsers);
 
 // Route GET et POST pour mettre à jour les informations du profil
 router.get('/edit', showEditForm);
-router.post('/edit', updateUser);
+router.post('/edit/:userId', updateUser);
 
 
 // Route pour la suppression d'un utilisateur
@@ -48,8 +48,8 @@ router.delete("/delete/:userId", deleteUser);
 // Routes d'administration
 router.get('/admin/add',adminMiddleware, showAddUserForm);
 router.post('/admin/add',adminMiddleware, addNewUser); 
-router.get('/admin/edit/:id', adminMiddleware, showAdminEditForm);
-router.post('/admin/edit/:id', adminMiddleware, updateAdminUser);
+router.get('/admin/edit/:userId', adminMiddleware, showAdminEditForm);
+router.post('/admin/edit/:userId', adminMiddleware, updateAdminUser);
 
 
 router.use((req, res, next) => {

@@ -1,5 +1,7 @@
 import userService from '../services/userService.js'; 
 import User from "../models/User.js";
+import { validateData } from "../helpers/validation.js";
+import bcrypt from "bcrypt";
 
 const saltRounds = 10;
 
@@ -16,7 +18,38 @@ export const showAddUserForm = async (req, res) => {
 // Ajouter un nouvel utilisateur
 export const addNewUser = async (req, res) => {
     try {
-        const newUser = {...req.body, isAdmin: req.body.isAdmin === 'on'};
+        const {
+            gender,
+            category,
+            lastname,
+            firstname,
+            email,
+            password,
+            phone,
+            birthdate,
+            city,
+            country,
+            photo,
+            isAdmin 
+        } = req.body;
+
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const newUser = {
+            gender,
+            category,
+            lastname,
+            firstname,
+            email,
+            password: hashedPassword,
+            phone,
+            birthdate,
+            city,
+            country,
+            photo,
+            isAdmin: isAdmin === 'on'
+        };
+
         await userService.createUser(newUser);
         res.redirect('/listing'); 
     } catch (error) {
@@ -66,8 +99,40 @@ export const showAdminEditForm = async (req, res) => {
 // Mettre à jour un utilisateur par un administrateur
 export const updateAdminUser = async (req, res) => {
     try {
-        const updateData = {...req.body, isAdmin: req.body.isAdmin === 'on'};
-        await userService.updateUser(req.params.id, updateData);
+        const userId = req.params.id;
+        const {
+            gender,
+            category,
+            lastname,
+            firstname,
+            email,
+            password,
+            phone,
+            birthdate,
+            city,
+            country,
+            photo,
+            isAdmin 
+        } = req.body;
+
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const updateData = {
+            gender,
+            category,
+            lastname,
+            firstname,
+            email,
+            password: hashedPassword,
+            phone,
+            birthdate,
+            city,
+            country,
+            photo,
+            isAdmin: isAdmin === 'on'
+        };
+
+        await userService.updateUser(userId, updateData);
         res.redirect('/listing');
     } catch (err) {
         console.error("Erreur lors de la modification :", err);

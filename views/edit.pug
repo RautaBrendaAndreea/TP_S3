@@ -3,8 +3,8 @@ extends layout
 block content
   h1.heading Modifier mon profil
 
-  form.container(action="/admin/edit/" + user.id, method="POST")
-    input(type="hidden" name="id" value=user.id)
+  form.container(action="/admin/edit/" + user._id, method="POST")
+    input(type="hidden" name="id" value=user._id)
 
     div.select-container
       label(for="gender") Civilité
